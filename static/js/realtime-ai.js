@@ -83,21 +83,25 @@ async function startSession() {
               }
             } else if (output.name === 'present_qr_code') {
               try {
-                const presentationString = initialize_prescription_presentation()
-                const qrCodeData = generate_qr_code(presentationString)
-                state.qrCodeData = byte_array_to_image_url(qrCodeData)
-
-                // Ask for feedback
-                setTimeout(() => {
-                  sendClientEvent({
-                    type: "response.create",
-                    response: {
-                      instructions: "ask if they would like to scan the QR code to present their prescription."
-                    }
+                initialize_prescription_presentation()
+                  .then(presentationString => generate_qr_code(presentationString))
+                  .then(qrCodeData => {
+                    state.qrCodeData = byte_array_to_image_url(qrCodeData)
+                    // Ask for feedback
+                    setTimeout(() => {
+                      sendClientEvent({
+                        type: "response.create",
+                        response: {
+                          instructions: "ask if they would like to scan the QR code to present their prescription."
+                        }
+                      })
+                    }, 500)
                   })
-                }, 500)
+                  .catch(e => {
+                    console.error('Failed to generate QR code:', e)
+                  })
               } catch (e) {
-                console.error('Failed to generate QR code:', e)
+                console.error('Failed to handle QR code generation:', e)
               }
             }
           }
