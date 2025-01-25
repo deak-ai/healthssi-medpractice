@@ -2,7 +2,9 @@ import { proxy, subscribe } from 'https://cdn.jsdelivr.net/npm/valtio@1.12.0/+es
 import { 
   initialize_prescription_presentation,
   generate_qr_code,
-  byte_array_to_image_url
+  byte_array_to_image_url,
+  parseOpenId4VpUri,
+  subscribe_to_notifications
 } from './pis-api-functions.mjs'
 
 // State management
@@ -11,7 +13,9 @@ const state = proxy({
   events: [],
   colors: [],
   theme: null,
-  qrCodeData: null
+  qrCodeData: null,
+  prescriptionData: null,
+  presentationUri: null
 })
 
 // WebRTC connection
@@ -83,22 +87,20 @@ async function startSession() {
               }
             } else if (output.name === 'present_qr_code') {
               try {
-                initialize_prescription_presentation()
-                  .then(presentationString => generate_qr_code(presentationString))
-                  .then(qrCodeData => {
-                    state.qrCodeData = byte_array_to_image_url(qrCodeData)
-                    // Ask for feedback
+                handlePrescriptionPresentation()
+                  .then(() => {
+                    // Ask for feedback after QR code is displayed
                     setTimeout(() => {
                       sendClientEvent({
                         type: "response.create",
                         response: {
-                          instructions: "ask if they would like to scan the QR code to present their prescription."
+                          instructions: "ask if they would like to present a prescription (don't worry, this is just a demo)."
                         }
                       })
                     }, 500)
                   })
                   .catch(e => {
-                    console.error('Failed to generate QR code:', e)
+                    console.error('Failed to handle QR code generation:', e)
                   })
               } catch (e) {
                 console.error('Failed to handle QR code generation:', e)
@@ -249,6 +251,74 @@ function sendTextMessage(message) {
   sendClientEvent({ type: 'response.create' })
 }
 
+// Function to handle prescription presentation
+async function handlePrescriptionPresentation() {
+  try {
+    // Initialize prescription presentation
+    const presentationUri = await initialize_prescription_presentation();
+    state.presentationUri = presentationUri;
+    
+    // Parse the URI to get stateId
+    const params = parseOpenId4VpUri(presentationUri);
+    const stateId = params.state;
+    
+    if (!stateId) {
+      throw new Error('No state ID found in presentation URI');
+    }
+    
+    // Generate and display QR code
+    const qrCodeBytes = await generate_qr_code(presentationUri);
+    state.qrCodeData = byte_array_to_image_url(qrCodeBytes);
+    
+    // Set up WebSocket subscription for status updates
+    const messageHandler = (data) => {
+      console.log('Received prescription data:', data);
+      // Update state with prescription data
+      state.prescriptionData = data;
+    };
+    
+    // Subscribe to notifications using the stateId
+    subscribe_to_notifications(stateId, messageHandler);
+    
+  } catch (error) {
+    console.error('Error in prescription presentation:', error);
+    state.error = `Failed to handle prescription presentation: ${error.message}`;
+  }
+}
+
+// Function to copy text to clipboard
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    // Show a temporary success message
+    const copyButton = document.getElementById('copyButton');
+    if (copyButton) {
+      copyButton.classList.remove('bg-gray-100', 'hover:bg-gray-200');
+      copyButton.classList.add('bg-green-100', 'text-green-700');
+      
+      // Update the icon to a checkmark
+      copyButton.innerHTML = `
+        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+        </svg>
+      `;
+      
+      setTimeout(() => {
+        copyButton.classList.remove('bg-green-100', 'text-green-700');
+        copyButton.classList.add('bg-gray-100', 'hover:bg-gray-200');
+        // Restore the clipboard icon
+        copyButton.innerHTML = `
+          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1m6 0v3H6V2M5 5h8m-8 5h8m-8 4h8"/>
+          </svg>
+        `;
+      }, 2000);
+    }
+  } catch (err) {
+    console.error('Failed to copy text: ', err);
+  }
+}
+
 // UI Updates
 function updateUI() {
   const button = document.getElementById('toggleSession')
@@ -288,14 +358,61 @@ function updateUI() {
   `).join('')
   
   // Update QR code display
-  if (state.qrCodeData) {
+  const prescriptionText = state.prescriptionData 
+    ? "Thank you for providing me your prescription"
+    : state.qrCodeData 
+      ? "Please scan this QR Code to present your prescription"
+      : "Talk to me if you have a prescription";
+
+  // Update the instruction text in the header
+  const prescriptionInstructionElement = document.querySelector('.p-4.border-b p.text-sm');
+  if (prescriptionInstructionElement) {
+    prescriptionInstructionElement.textContent = prescriptionText;
+  }
+
+  if (state.prescriptionData) {
+    // Show prescription data instead of QR code
     qrCodeDisplay.innerHTML = `
-      <div class="flex items-center justify-center p-4">
-        <img src="${state.qrCodeData}" alt="QR Code" class="max-w-full h-auto"/>
+      <div class="flex flex-col items-center justify-center w-full">
+        <div class="w-full max-w-xl">
+          <pre class="bg-gray-100 p-4 rounded-lg w-full font-mono text-sm whitespace-pre-wrap break-all" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${JSON.stringify(state.prescriptionData, null, 2)}</pre>
+        </div>
       </div>
     `
+  } else if (state.qrCodeData) {
+    // Show QR code
+    qrCodeDisplay.innerHTML = `
+      <div class="flex flex-col items-center justify-center w-full">
+        <div class="w-full max-w-xl flex items-center justify-center mb-4">
+          <img src="${state.qrCodeData}" alt="QR Code" class="w-full h-auto"/>
+        </div>
+        <div class="w-full max-w-xl">
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div class="flex items-start gap-2">
+              <p class="text-xs text-gray-600 font-mono break-all flex-grow" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${state.presentationUri}</p>
+              <button 
+                id="copyButton"
+                class="p-2 rounded bg-gray-100 hover:bg-gray-200 transition-colors"
+                aria-label="Copy URL to clipboard"
+              >
+                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1m6 0v3H6V2M5 5h8m-8 5h8m-8 4h8"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+
+    // Add click handler after the element is in the DOM
+    const copyButton = document.getElementById('copyButton');
+    if (copyButton) {
+      copyButton.addEventListener('click', () => copyToClipboard(state.presentationUri));
+    }
   } else {
-    qrCodeDisplay.innerHTML = '<div class="text-center p-4">No QR code generated yet</div>'
+    // Initial state
+    qrCodeDisplay.innerHTML = `<div class="flex items-center justify-center min-h-[200px]"></div>`
   }
   
   // Update event log

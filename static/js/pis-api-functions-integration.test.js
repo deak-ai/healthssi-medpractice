@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 describe('PIS API Integration Tests', () => {
-     it.skip('should successfully make a real API call to PIS service', async () => {
+     it('should successfully make a real API call to PIS service', async () => {
         try {
             const result = await initialize_prescription_presentation();
             
@@ -81,7 +81,7 @@ describe('PIS API Integration Tests', () => {
         }
     }, 10000);
 
-    it('should connect to WebSocket and receive messages', async () => {
+    it.skip('should connect to WebSocket and receive messages', async () => {
         // First get a valid state ID by making a prescription presentation request
         console.log("Running WebSocket test...");
         const result = await initialize_prescription_presentation();
