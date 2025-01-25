@@ -1,3 +1,6 @@
+// @ts-check
+/** @module pis-api-functions */
+
 /**
  * Functions for interacting with the PIS API service
  */
@@ -7,7 +10,7 @@
  * @returns {Promise<string>} A promise that resolves to the authorization URI
  * @throws {Error} If the API call fails
  */
-async function initialize_prescription_presentation() {
+export async function initialize_prescription_presentation() {
     const requestPayload = {
         authorizeBaseUrl: "openid4vp://authorize",
         responseMode: "direct_post",
@@ -74,7 +77,7 @@ async function initialize_prescription_presentation() {
  * @param {string} uri - The URI string to parse
  * @returns {Object} Object containing the parsed parameters
  */
-function parseOpenId4VpUri(uri) {
+export function parseOpenId4VpUri(uri) {
     try {
         // Extract the query string part (everything after the ?)
         const [baseUrl, queryString] = uri.split('?');
@@ -116,7 +119,7 @@ function parseOpenId4VpUri(uri) {
  * @returns {Promise<Uint8Array>} A promise that resolves to the QR code as a byte array
  * @throws {Error} If the API call fails
  */
-async function generate_qr_code(text) {
+export async function generate_qr_code(text) {
     try {
         const response = await fetch('https://pis.healthwallet.li/utils/qrcode', {
             method: 'POST',
@@ -145,7 +148,7 @@ async function generate_qr_code(text) {
  * @param {Uint8Array} byteArray - The byte array containing the PNG data
  * @returns {string} A data URL that can be used in an <img> tag's src attribute
  */
-function byte_array_to_image_url(byteArray) {
+export function byte_array_to_image_url(byteArray) {
     // Convert the Uint8Array to a base64 string
     let binary = '';
     const bytes = new Uint8Array(byteArray);
@@ -164,7 +167,7 @@ function byte_array_to_image_url(byteArray) {
  * @returns {WebSocket} The WebSocket instance for further handling if needed
  * @throws {Error} If WebSocket connection fails or if stateId is invalid
  */
-function subscribe_to_notifications(stateId, onMessage, WebSocketClass) {
+export function subscribe_to_notifications(stateId, onMessage, WebSocketClass) {
     if (!stateId) {
         throw new Error('stateId is required');
     }
@@ -207,15 +210,4 @@ function subscribe_to_notifications(stateId, onMessage, WebSocketClass) {
     });
 
     return ws;
-}
-
-// Export the functions
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        initialize_prescription_presentation,
-        parseOpenId4VpUri,
-        generate_qr_code,
-        byte_array_to_image_url,
-        subscribe_to_notifications
-    };
 }

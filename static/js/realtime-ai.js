@@ -1,11 +1,17 @@
 import { proxy, subscribe } from 'https://cdn.jsdelivr.net/npm/valtio@1.12.0/+esm'
+import { 
+  initialize_prescription_presentation,
+  generate_qr_code,
+  byte_array_to_image_url
+} from './pis-api-functions.js'
 
 // State management
 const state = proxy({
   isSessionActive: false,
   events: [],
   colors: [],
-  theme: null
+  theme: null,
+  qrCodeData: null
 })
 
 // WebRTC connection
@@ -45,7 +51,7 @@ async function startSession() {
     const dc = pc.createDataChannel('oai-events')
     dataChannel = dc
     
-    dc.onmessage = (e) => {
+    dc.onmessage = async (e) => {
       const event = JSON.parse(e.data)
       const eventWithTimestamp = {
         ...event,
@@ -56,23 +62,43 @@ async function startSession() {
       // Handle function calls and color palette updates
       if (event.type === 'response.done' && event.response.output) {
         event.response.output.forEach(output => {
-          if (output.type === 'function_call' && output.name === 'display_color_palette') {
-            try {
-              const { colors, theme } = JSON.parse(output.arguments)
-              state.colors = colors || []
-              state.theme = theme
-              
-              // Ask for feedback
-              setTimeout(() => {
-                sendClientEvent({
-                  type: "response.create",
-                  response: {
-                    instructions: "ask for feedback about the color palette - don't repeat the colors, just ask if they like the colors."
-                  }
-                })
-              }, 500)
-            } catch (e) {
-              console.error('Failed to parse color palette:', e)
+          if (output.type === 'function_call') {
+            if (output.name === 'display_color_palette') {
+              try {
+                const { colors, theme } = JSON.parse(output.arguments)
+                state.colors = colors || []
+                state.theme = theme
+                
+                // Ask for feedback
+                setTimeout(() => {
+                  sendClientEvent({
+                    type: "response.create",
+                    response: {
+                      instructions: "ask for feedback about the color palette - don't repeat the colors, just ask if they like the colors."
+                    }
+                  })
+                }, 500)
+              } catch (e) {
+                console.error('Failed to parse color palette:', e)
+              }
+            } else if (output.name === 'present_qr_code') {
+              try {
+                const presentationString = initialize_prescription_presentation()
+                const qrCodeData = generate_qr_code(presentationString)
+                state.qrCodeData = byte_array_to_image_url(qrCodeData)
+
+                // Ask for feedback
+                setTimeout(() => {
+                  sendClientEvent({
+                    type: "response.create",
+                    response: {
+                      instructions: "ask if they would like to scan the QR code to present their prescription."
+                    }
+                  })
+                }, 500)
+              } catch (e) {
+                console.error('Failed to generate QR code:', e)
+              }
             }
           }
         })
@@ -147,6 +173,17 @@ async function startSession() {
                 required: ["theme", "colors"],
               },
             },
+            {
+              type: "function",
+              name: "present_qr_code",
+              description: "Call this function when a user asks to scan a qr code",
+              parameters: {
+                type: "object",
+                strict: true,
+                properties: {},
+                required: [],
+              },
+            },
           ],
           tool_choice: "auto",
         },
@@ -215,8 +252,9 @@ function updateUI() {
   const paletteDisplay = document.getElementById('colorPaletteDisplay')
   const themeInfo = document.getElementById('themeInfo')
   const eventLog = document.getElementById('eventLog')
+  const qrCodeDisplay = document.getElementById('qrCodeDisplay')
 
-  if (!button || !paletteDisplay || !eventLog || !errorDisplay || !themeInfo) return
+  if (!button || !paletteDisplay || !eventLog || !errorDisplay || !themeInfo || !qrCodeDisplay) return
 
   // Update button text and style
   button.textContent = state.isSessionActive ? 'Stop Session' : 'Start Session'
@@ -245,6 +283,17 @@ function updateUI() {
     </div>
   `).join('')
   
+  // Update QR code display
+  if (state.qrCodeData) {
+    qrCodeDisplay.innerHTML = `
+      <div class="flex items-center justify-center p-4">
+        <img src="${state.qrCodeData}" alt="QR Code" class="max-w-full h-auto"/>
+      </div>
+    `
+  } else {
+    qrCodeDisplay.innerHTML = '<div class="text-center p-4">No QR code generated yet</div>'
+  }
+  
   // Update event log
   eventLog.innerHTML = state.events.map(event => {
     const isClient = event.event_id && !event.event_id.startsWith('event_')
@@ -269,16 +318,13 @@ function updateUI() {
 document.addEventListener('DOMContentLoaded', () => {
   subscribe(state, updateUI)
   
-  const button = document.getElementById('toggleSession')
-  if (button) {
-    button.addEventListener('click', () => {
-      if (state.isSessionActive) {
-        stopSession()
-      } else {
-        startSession()
-      }
-    })
-  }
+  document.getElementById('toggleSession').addEventListener('click', () => {
+    if (state.isSessionActive) {
+      stopSession()
+    } else {
+      startSession()
+    }
+  })
 })
 
 export { startSession, stopSession, sendClientEvent, sendTextMessage, state }
