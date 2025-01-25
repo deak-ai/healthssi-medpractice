@@ -32,8 +32,8 @@
     "build:hugo": "dotenv hugo --destination=./public",
     "build:webpack": "webpack --mode=production",
     "build:styles": "npx tailwindcss -i ./src/style.css -o ./dist/css/flowbite.css",
-    "test": "jest --no-watch",
-    "test:watch": "jest --watch"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "archiver": "^5.3.0",
@@ -44,9 +44,6 @@
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
     "javascript-obfuscator": "^2.19.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "js-yaml": "^4.1.0",
     "jsdom": "^17.0.0",
     "loader-utils": "^2.0.0",
     "mini-css-extract-plugin": "^2.4.2",
@@ -62,6 +59,7 @@
     "source-map-loader": "^3.0.0",
     "style-loader": "^3.3.0",
     "tailwindcss": "^3.2.4",
+    "vitest": "^1.2.0",
     "webpack": "^5.58.2",
     "webpack-cli": "^4.9.0",
     "webpack-dev-server": "^4.3.1",
@@ -72,7 +70,10 @@
     "testEnvironment": "node",
     "setupFiles": [
       "./jest.setup.js"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^(.+)\\.js$": "$1"
+    }
   },
   "dependencies": {
     "@popperjs/core": "^2.10.2",

@@ -1,10 +1,11 @@
-const { initialize_prescription_presentation, parseOpenId4VpUri, byte_array_to_image_url } = require('./pis-api-functions');
-const fetch = require('node-fetch');
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { initialize_prescription_presentation, parseOpenId4VpUri, byte_array_to_image_url } from './pis-api-functions.mjs';
+import fetch from 'node-fetch';
 
 describe('PIS API Functions', () => {
     beforeEach(() => {
         // Reset fetch mock before each test
-        global.fetch = jest.fn();
+        global.fetch = vi.fn();
     });
 
     it('should make a POST request with correct payload and return URI', async () => {

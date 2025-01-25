@@ -3,7 +3,7 @@ import {
   initialize_prescription_presentation,
   generate_qr_code,
   byte_array_to_image_url
-} from './pis-api-functions.js'
+} from './pis-api-functions.mjs'
 
 // State management
 const state = proxy({

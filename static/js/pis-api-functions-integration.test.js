@@ -1,8 +1,19 @@
-const { initialize_prescription_presentation, parseOpenId4VpUri, generate_qr_code, byte_array_to_image_url, subscribe_to_notifications } = require('./pis-api-functions');
-const fetch = require('node-fetch');
-const fs = require('fs');
-const path = require('path');
-const WebSocket = require('ws');
+import { describe, it, expect } from 'vitest';
+import { 
+    initialize_prescription_presentation, 
+    parseOpenId4VpUri, 
+    generate_qr_code, 
+    byte_array_to_image_url, 
+    subscribe_to_notifications 
+} from './pis-api-functions.mjs';
+import fetch from 'node-fetch';
+import fs from 'fs';
+import path from 'path';
+import WebSocket from 'ws';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe('PIS API Integration Tests', () => {
      it.skip('should successfully make a real API call to PIS service', async () => {
@@ -70,42 +81,40 @@ describe('PIS API Integration Tests', () => {
         }
     }, 10000);
 
-    it('should connect to WebSocket and receive messages', (done) => {
+    it('should connect to WebSocket and receive messages', async () => {
         // First get a valid state ID by making a prescription presentation request
-        initialize_prescription_presentation()
-            .then(result => {
-                const params = parseOpenId4VpUri(result);
-                const stateId = params.state;
-                expect(stateId).toBeTruthy();
-                console.log(result)
-                // Set up message handler
-                const messageHandler = (data) => {
-                    try {
-                        console.log('Received WebSocket message:', data);
-                        // Verify the message structure
-                        expect(data).toBeDefined();
-                        // You might want to add more specific checks based on your expected message format
-                        
-                        // Close the connection after receiving a message
-                        ws.close();
-                        done();
-                    } catch (error) {
-                        done(error);
-                    }
-                };
+        console.log("Running WebSocket test...");
+        const result = await initialize_prescription_presentation();
+        const params = parseOpenId4VpUri(result);
+        const stateId = params.state;
+        expect(stateId).toBeTruthy();
+        console.log(result);
+        
+        // Create a promise that resolves when we receive a valid message
+        const messagePromise = new Promise((resolve, reject) => {
+            const messageHandler = (data) => {
+                try {
+                    console.log('Received WebSocket message:', data);
+                    // Verify the message structure
+                    expect(data).toBeDefined();
+                    // You might want to add more specific checks based on your expected message format
+                    resolve(data);
+                } catch (error) {
+                    reject(error);
+                }
+            };
 
-                // Create WebSocket connection
-                const ws = subscribe_to_notifications(stateId, messageHandler, WebSocket);
-                
-                // Set a timeout in case we don't receive a message
-                setTimeout(() => {
-                    ws.close();
-                    done(new Error('Timeout waiting for WebSocket message'));
-                }, 600000);
-            })
-            .catch(error => {
-                console.error('Failed to initialize WebSocket test:', error);
-                done(error);
-            });
+            // Create WebSocket connection
+            const ws = subscribe_to_notifications(stateId, messageHandler, WebSocket);
+            
+            // Set a timeout in case we don't receive a message
+            setTimeout(() => {
+                ws.close();
+                reject(new Error('Timeout waiting for WebSocket message'));
+            }, 600000);
+        });
+
+        // Wait for either a message or timeout
+        await messagePromise;
     }, 600000);
 });

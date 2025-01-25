@@ -1,4 +1,3 @@
-// @ts-check
 /** @module pis-api-functions */
 
 /**
@@ -163,8 +162,8 @@ export function byte_array_to_image_url(byteArray) {
  * Subscribe to WebSocket notifications for a specific state ID
  * @param {string} stateId - The state ID to subscribe to
  * @param {function(Object)} onMessage - Callback function that will be called with parsed JSON messages
- * @param {WebSocket} [WebSocketClass] - Optional WebSocket class (for Node.js environment)
- * @returns {WebSocket} The WebSocket instance for further handling if needed
+ * @param {typeof WebSocket} [WebSocketClass] - Optional WebSocket constructor (for Node.js environment)
+ * @return {WebSocket} The WebSocket instance for further handling if needed
  * @throws {Error} If WebSocket connection fails or if stateId is invalid
  */
 export function subscribe_to_notifications(stateId, onMessage, WebSocketClass) {
