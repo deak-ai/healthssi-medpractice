@@ -1,4 +1,4 @@
-const { initialize_prescription_presentation, parseOpenId4VpUri } = require('./pis-api-functions');
+const { initialize_prescription_presentation, parseOpenId4VpUri, byte_array_to_image_url } = require('./pis-api-functions');
 const fetch = require('node-fetch');
 
 describe('PIS API Functions', () => {
@@ -75,5 +75,19 @@ describe('URI Parser Helper', () => {
         
         expect(() => parseOpenId4VpUri(invalidUri))
             .toThrow('Invalid URI format: no query parameters found');
+    });
+});
+
+describe('QR Code Functions', () => {
+    it('should convert byte array to data URL', () => {
+        // Create a simple test byte array (this is not a valid PNG, just for testing the conversion)
+        const testBytes = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]); // PNG header bytes
+        
+        const result = byte_array_to_image_url(testBytes);
+        
+        // Check that we get a properly formatted data URL
+        expect(result).toMatch(/^data:image\/png;base64,/);
+        // The base64 part should be non-empty
+        expect(result.split(',')[1].length).toBeGreaterThan(0);
     });
 });
