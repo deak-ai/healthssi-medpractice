@@ -18,6 +18,97 @@ const state = proxy({
   presentationUri: null
 })
 
+// Constants for prescription states
+const PRESCRIPTION_STATES = {
+  INITIAL: 'initial',
+  QR_CODE: 'qr_code',
+  PRESCRIPTION: 'prescription'
+}
+
+const PRESCRIPTION_MESSAGES = {
+  [PRESCRIPTION_STATES.INITIAL]: "Talk to me if you have a prescription",
+  [PRESCRIPTION_STATES.QR_CODE]: "Please scan this QR Code to present your prescription",
+  [PRESCRIPTION_STATES.PRESCRIPTION]: "Thank you for providing me your prescription"
+}
+
+// Function to reset prescription state
+function resetPrescriptionState() {
+  state.qrCodeData = null;
+  state.prescriptionData = null;
+  state.presentationUri = null;
+  updatePrescriptionDisplay();
+}
+
+// Function to get current prescription state
+function getCurrentPrescriptionState() {
+  if (state.prescriptionData) return PRESCRIPTION_STATES.PRESCRIPTION;
+  if (state.qrCodeData) return PRESCRIPTION_STATES.QR_CODE;
+  return PRESCRIPTION_STATES.INITIAL;
+}
+
+// Function to update prescription display
+function updatePrescriptionDisplay() {
+  const currentState = getCurrentPrescriptionState();
+  const message = PRESCRIPTION_MESSAGES[currentState];
+  
+  // Update the instruction text in the header
+  const prescriptionInstructionElement = document.querySelector('.p-4.border-b p.text-sm');
+  if (prescriptionInstructionElement) {
+    prescriptionInstructionElement.textContent = message;
+  }
+
+  const qrCodeDisplay = document.getElementById('qrCodeDisplay');
+  if (!qrCodeDisplay) return;
+
+  switch (currentState) {
+    case PRESCRIPTION_STATES.PRESCRIPTION:
+      qrCodeDisplay.innerHTML = `
+        <div class="flex flex-col items-center justify-center w-full">
+          <div class="w-full max-w-xl">
+            <pre class="bg-gray-100 p-4 rounded-lg w-full font-mono text-sm whitespace-pre-wrap break-all" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${JSON.stringify(state.prescriptionData, null, 2)}</pre>
+          </div>
+        </div>
+      `;
+      break;
+
+    case PRESCRIPTION_STATES.QR_CODE:
+      qrCodeDisplay.innerHTML = `
+        <div class="flex flex-col items-center justify-center w-full">
+          <div class="w-full max-w-xl flex items-center justify-center mb-4">
+            <img src="${state.qrCodeData}" alt="QR Code" class="w-full h-auto"/>
+          </div>
+          <div class="w-full max-w-xl">
+            <div class="bg-gray-50 rounded-lg p-4">
+              <div class="flex items-start gap-2">
+                <p class="text-xs text-gray-600 font-mono break-all flex-grow" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${state.presentationUri}</p>
+                <button 
+                  id="copyButton"
+                  class="p-2 rounded bg-gray-100 hover:bg-gray-200 transition-colors"
+                  aria-label="Copy URL to clipboard"
+                >
+                  <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1m6 0v3H6V2M5 5h8m-8 5h8m-8 4h8"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Add click handler after the element is in the DOM
+      const copyButton = document.getElementById('copyButton');
+      if (copyButton) {
+        copyButton.addEventListener('click', () => copyToClipboard(state.presentationUri));
+      }
+      break;
+
+    default: // INITIAL state
+      qrCodeDisplay.innerHTML = `<div class="flex items-center justify-center min-h-[200px]"></div>`;
+      break;
+  }
+}
+
 // WebRTC connection
 let peerConnection = null
 let dataChannel = null
@@ -94,7 +185,7 @@ async function startSession() {
                       sendClientEvent({
                         type: "response.create",
                         response: {
-                          instructions: "ask if they would like to present a prescription (don't worry, this is just a demo)."
+                          instructions: "ask them to scan the QR code with their SSI wallet present their prescription"
                         }
                       })
                     }, 500)
@@ -104,6 +195,21 @@ async function startSession() {
                   })
               } catch (e) {
                 console.error('Failed to handle QR code generation:', e)
+              }
+            } else if (output.name === 'reset_prescription') {
+              try {
+                resetPrescriptionState();
+                // Confirm the reset
+                setTimeout(() => {
+                  sendClientEvent({
+                    type: "response.create",
+                    response: {
+                      instructions: "Ask them how else you can be of assistance, stating your capabilities with the exception of resetting the prescription state"
+                    }
+                  })
+                }, 500)
+              } catch (e) {
+                console.error('Failed to reset prescription state:', e)
               }
             }
           }
@@ -182,7 +288,21 @@ async function startSession() {
             {
               type: "function",
               name: "present_qr_code",
-              description: "Call this function when a user asks to scan a qr code",
+              // break the below string into multiple lines to make it more readable
+              description: "Call this function when a user asks about a prescription (note this is not a real medical prescription)." 
+                  +"This will allow you to generate a QR code to show the user which they can then scan with their SSI wallet in order to present their prescription."
+                  +"The underlying flow is an OpenID4VP presentation flow, but don't bore the user with these details, just so you know.",
+              parameters: {
+                type: "object",
+                strict: true,
+                properties: {},
+                required: [],
+              },
+            },
+            {
+              type: "function",
+              name: "reset_prescription",
+              description: "Call this function to reset the prescription state",
               parameters: {
                 type: "object",
                 strict: true,
@@ -275,6 +395,17 @@ async function handlePrescriptionPresentation() {
       console.log('Received prescription data:', data);
       // Update state with prescription data
       state.prescriptionData = data;
+      updateUI();
+      // Send message about robot delivery
+      setTimeout(() => {
+        sendClientEvent({
+          type: "response.create",
+          response: {
+            instructions: "Now say thank you to the user for providing their prescription and tell them"
+            +" that a friendly robots will hand it to them shortly."
+          }
+        })
+      }, 500)
     };
     
     // Subscribe to notifications using the stateId
@@ -326,9 +457,8 @@ function updateUI() {
   const paletteDisplay = document.getElementById('colorPaletteDisplay')
   const themeInfo = document.getElementById('themeInfo')
   const eventLog = document.getElementById('eventLog')
-  const qrCodeDisplay = document.getElementById('qrCodeDisplay')
 
-  if (!button || !paletteDisplay || !eventLog || !errorDisplay || !themeInfo || !qrCodeDisplay) return
+  if (!button || !paletteDisplay || !eventLog || !errorDisplay || !themeInfo) return
 
   // Update button text and style
   button.textContent = state.isSessionActive ? 'Stop Session' : 'Start Session'
@@ -357,63 +487,8 @@ function updateUI() {
     </div>
   `).join('')
   
-  // Update QR code display
-  const prescriptionText = state.prescriptionData 
-    ? "Thank you for providing me your prescription"
-    : state.qrCodeData 
-      ? "Please scan this QR Code to present your prescription"
-      : "Talk to me if you have a prescription";
-
-  // Update the instruction text in the header
-  const prescriptionInstructionElement = document.querySelector('.p-4.border-b p.text-sm');
-  if (prescriptionInstructionElement) {
-    prescriptionInstructionElement.textContent = prescriptionText;
-  }
-
-  if (state.prescriptionData) {
-    // Show prescription data instead of QR code
-    qrCodeDisplay.innerHTML = `
-      <div class="flex flex-col items-center justify-center w-full">
-        <div class="w-full max-w-xl">
-          <pre class="bg-gray-100 p-4 rounded-lg w-full font-mono text-sm whitespace-pre-wrap break-all" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${JSON.stringify(state.prescriptionData, null, 2)}</pre>
-        </div>
-      </div>
-    `
-  } else if (state.qrCodeData) {
-    // Show QR code
-    qrCodeDisplay.innerHTML = `
-      <div class="flex flex-col items-center justify-center w-full">
-        <div class="w-full max-w-xl flex items-center justify-center mb-4">
-          <img src="${state.qrCodeData}" alt="QR Code" class="w-full h-auto"/>
-        </div>
-        <div class="w-full max-w-xl">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <div class="flex items-start gap-2">
-              <p class="text-xs text-gray-600 font-mono break-all flex-grow" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${state.presentationUri}</p>
-              <button 
-                id="copyButton"
-                class="p-2 rounded bg-gray-100 hover:bg-gray-200 transition-colors"
-                aria-label="Copy URL to clipboard"
-              >
-                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1m6 0v3H6V2M5 5h8m-8 5h8m-8 4h8"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    `
-
-    // Add click handler after the element is in the DOM
-    const copyButton = document.getElementById('copyButton');
-    if (copyButton) {
-      copyButton.addEventListener('click', () => copyToClipboard(state.presentationUri));
-    }
-  } else {
-    // Initial state
-    qrCodeDisplay.innerHTML = `<div class="flex items-center justify-center min-h-[200px]"></div>`
-  }
+  // Update prescription display
+  updatePrescriptionDisplay();
   
   // Update event log
   eventLog.innerHTML = state.events.map(event => {
