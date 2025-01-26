@@ -11,8 +11,6 @@ import {
 const state = proxy({
   isSessionActive: false,
   events: [],
-  colors: [],
-  theme: null,
   qrCodeData: null,
   prescriptionData: null,
   presentationUri: null
@@ -92,42 +90,58 @@ function updatePrescriptionDisplay() {
 
   switch (currentState) {
     case PRESCRIPTION_STATES.PRESCRIPTION:
-      if (state.prescriptionData?.medicationPid) {
-        qrCodeDisplay.innerHTML = `
-          <div class="flex flex-col items-center justify-center w-full h-full flex-1">
-            <div class="w-full h-full relative">
-              <div class="bg-white h-full">
-                <div id="iframeLoader" class="absolute inset-0 flex items-center justify-center bg-gray-50">
-                  <div role="status" class="inline-block">
-                    <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-primary-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                      <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-                    </svg>
-                    <span class="sr-only">Loading...</span>
+      if (state.prescriptionData) {
+        if (state.prescriptionData.medicationPid) {
+          qrCodeDisplay.innerHTML = `
+            <div class="flex flex-col items-center justify-center w-full h-full flex-1">
+              <div class="w-full h-full relative">
+                <div class="bg-white h-full">
+                  <div id="iframeLoader" class="absolute inset-0 flex items-center justify-center bg-gray-50">
+                    <div role="status" class="inline-block">
+                      <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-primary-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                      </svg>
+                      <span class="sr-only">Loading...</span>
+                    </div>
                   </div>
+                  <iframe 
+                    id="medicationFrame"
+                    src="https://med.mymedi.ch/article/show/${state.prescriptionData.medicationPid}"
+                    class="w-full h-full relative z-10 opacity-0 transition-opacity duration-300"
+                    style="border: 0; display: block; min-height: calc(100vh - 20rem);"
+                    title="Medication Information"
+                    onload="this.classList.remove('opacity-0')"
+                  >
+                  </iframe>
                 </div>
-                <iframe 
-                  id="medicationFrame"
-                  src="https://med.mymedi.ch/article/show/${state.prescriptionData.medicationPid}"
-                  class="w-full h-full relative z-10 opacity-0 transition-opacity duration-300"
-                  style="border: 0; display: block; min-height: calc(100vh - 20rem);"
-                  title="Medication Information"
-                  onload="this.classList.remove('opacity-0')"
-                >
-                </iframe>
               </div>
             </div>
-          </div>
-        `;
-      } else {
-        // Fallback to just showing prescription data if no GTIN available
-        qrCodeDisplay.innerHTML = `
-          <div class="flex flex-col items-center justify-center w-full">
-            <div class="w-full max-w-xl">
-              <pre class="bg-gray-100 p-4 rounded-lg w-full font-mono text-sm whitespace-pre-wrap break-all" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${JSON.stringify(state.prescriptionData, null, 2)}</pre>
+          `;
+        } else if (state.prescriptionData.medicationRefData?.gtin) {
+          // Show loading state while fetching PID
+          qrCodeDisplay.innerHTML = `
+            <div class="flex flex-col items-center justify-center w-full h-full">
+              <div role="status" class="inline-block">
+                <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-primary-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                  <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                </svg>
+                <span class="sr-only">Loading medication details...</span>
+              </div>
+              <p class="mt-2 text-sm text-gray-500">Loading medication details...</p>
             </div>
-          </div>
-        `;
+          `;
+        } else {
+          // Fallback to just showing prescription data if no GTIN available
+          qrCodeDisplay.innerHTML = `
+            <div class="flex flex-col items-center justify-center w-full">
+              <div class="w-full max-w-xl">
+                <pre class="bg-gray-100 p-4 rounded-lg w-full font-mono text-sm whitespace-pre-wrap break-all" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${JSON.stringify(state.prescriptionData, null, 2)}</pre>
+              </div>
+            </div>
+          `;
+        }
       }
       break;
 
@@ -146,7 +160,7 @@ function updatePrescriptionDisplay() {
                   class="p-2 rounded bg-gray-100 hover:bg-gray-200 transition-colors"
                   aria-label="Copy URL to clipboard"
                 >
-                  <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                  <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 12">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1m6 0v3H6V2M5 5h8m-8 5h8m-8 4h8"/>
                   </svg>
                 </button>
@@ -218,25 +232,7 @@ async function startSession() {
       if (event.type === 'response.done' && event.response.output) {
         event.response.output.forEach(output => {
           if (output.type === 'function_call') {
-            if (output.name === 'display_color_palette') {
-              try {
-                const { colors, theme } = JSON.parse(output.arguments)
-                state.colors = colors || []
-                state.theme = theme
-                
-                // Ask for feedback
-                setTimeout(() => {
-                  sendClientEvent({
-                    type: "response.create",
-                    response: {
-                      instructions: "ask for feedback about the color palette - don't repeat the colors, just ask if they like the colors."
-                    }
-                  })
-                }, 500)
-              } catch (e) {
-                console.error('Failed to parse color palette:', e)
-              }
-            } else if (output.name === 'present_qr_code') {
+            if (output.name === 'present_qr_code') {
               try {
                 handlePrescriptionPresentation()
                   .then(() => {
@@ -275,16 +271,6 @@ async function startSession() {
           }
         })
       }
-      
-      // Handle color palette updates
-      if (event.type === 'function_call' && event.name === 'set_color_palette') {
-        try {
-          const args = JSON.parse(event.arguments)
-          state.colors = args.colors || []
-        } catch (e) {
-          console.error('Failed to parse color palette:', e)
-        }
-      }
     }
     
     // Create and send offer
@@ -321,30 +307,6 @@ async function startSession() {
         type: "session.update",
         session: {
           tools: [
-            {
-              type: "function",
-              name: "display_color_palette",
-              description: "Call this function when a user asks for a color palette.",
-              parameters: {
-                type: "object",
-                strict: true,
-                properties: {
-                  theme: {
-                    type: "string",
-                    description: "Description of the theme for the color scheme.",
-                  },
-                  colors: {
-                    type: "array",
-                    description: "Array of five hex color codes based on the theme.",
-                    items: {
-                      type: "string",
-                      description: "Hex color code",
-                    },
-                  },
-                },
-                required: ["theme", "colors"],
-              },
-            },
             {
               type: "function",
               name: "present_qr_code",
@@ -455,20 +417,21 @@ async function handlePrescriptionPresentation() {
       try {
         // Check for prescription data by looking for key fields
         if (event.prescriptionId && event.medicationRefData) {
-          // Store the prescription data
-          state.prescriptionData = event;
+          // Store the prescription data and update PID atomically
+          const prescriptionUpdate = { ...event };
           
           // Fetch medication details if GTIN is available
           if (event.medicationRefData?.gtin) {
             try {
               const pid = await fetchMedicationDetails(event.medicationRefData.gtin);
-              state.prescriptionData.medicationPid = pid; // Store the PID
+              prescriptionUpdate.medicationPid = pid;
             } catch (error) {
               console.error('Error fetching medication details:', error);
             }
           }
           
-          updateUI();
+          // Update state once with all changes
+          state.prescriptionData = prescriptionUpdate;
           
           // Send message about robot delivery
           setTimeout(() => {
@@ -532,11 +495,9 @@ async function copyToClipboard(text) {
 function updateUI() {
   const button = document.getElementById('toggleSession')
   const errorDisplay = document.getElementById('errorDisplay')
-  const paletteDisplay = document.getElementById('colorPaletteDisplay')
-  const themeInfo = document.getElementById('themeInfo')
   const eventLog = document.getElementById('eventLog')
 
-  if (!button || !paletteDisplay || !eventLog || !errorDisplay || !themeInfo) return
+  if (!button || !eventLog || !errorDisplay) return
 
   // Update button text and style
   button.textContent = state.isSessionActive ? 'Stop Session' : 'Start Session'
@@ -553,18 +514,6 @@ function updateUI() {
     errorDisplay.classList.add('hidden')
   }
   
-  // Update theme info
-  themeInfo.textContent = state.theme || 'Speak to get a color palette suggestion'
-  
-  // Update color palette
-  paletteDisplay.innerHTML = state.colors.map(color => `
-    <div class="flex items-center gap-4 p-4 rounded transition-colors" style="background-color: ${color}">
-      <span class="px-3 py-1 text-sm font-medium rounded bg-white/90 dark:bg-gray-900/90 transition-colors">
-        ${color}
-      </span>
-    </div>
-  `).join('')
-  
   // Update prescription display
   updatePrescriptionDisplay();
   
@@ -574,7 +523,7 @@ function updateUI() {
     return `
       <div class="mb-2">
         <div class="flex items-center gap-2 p-2 rounded bg-gray-50 dark:bg-gray-700 transition-colors cursor-pointer" onclick="this.nextElementSibling.classList.toggle('hidden')">
-          <span class="text-${isClient ? 'blue' : 'green'}-400">${isClient ? '↓' : '↑'}</span>
+          <span class="${isClient ? 'text-blue-400' : 'text-green-400'}">${isClient ? '↓' : '↑'}</span>
           <span class="text-sm text-gray-500 dark:text-gray-400">
             ${isClient ? 'client:' : 'server:'} ${event.type} | ${event.timestamp}
           </span>
