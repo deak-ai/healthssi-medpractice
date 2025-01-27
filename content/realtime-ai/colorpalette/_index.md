@@ -1,4 +1,5 @@
 ---
-title: "Color Palette AI"
-layout: colorpalette
+title: "Color Palette Agent"
+layout: "colorpalette"
+group: "realtime-ai"
 ---

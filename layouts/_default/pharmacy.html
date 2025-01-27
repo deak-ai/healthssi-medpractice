@@ -1,0 +1,54 @@
+{{ define "main" }}
+{{ partial "navbar-dashboard" . }}
+{{ partial "sidebar" . }}
+
+<div class="p-4 md:ml-64 h-auto pt-20">
+  <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+    <div class="w-full mb-1">
+      <div class="mb-4">
+        <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Pharmacy AI Assistant</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          Speak with our AI assistant to manage prescriptions.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col lg:flex-row gap-4 p-4">
+    <!-- Prescription Display -->
+    <div class="flex-grow lg:w-2/3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col">
+      <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Prescriptions</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Talk to me if you have a prescription.</p>
+      </div>
+      <div id="qrCodeDisplay" class="p-4 flex-1 flex items-center justify-center min-h-[calc(100vh-20rem)]">
+        <p class="text-gray-500 dark:text-gray-400 text-center">No QR code generated yet</p>
+      </div>
+    </div>
+
+    <!-- Event Log -->
+    <div class="lg:w-1/3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Event Log</h3>
+      </div>
+      <div id="eventLog" class="p-4 h-[500px] overflow-y-auto font-mono text-sm">
+        <!-- Events will be dynamically inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Display -->
+  <div id="errorDisplay" class="fixed top-4 right-4 p-4 rounded-lg bg-red-100 border border-red-200 text-red-800 dark:bg-red-900 dark:border-red-800 dark:text-red-200 hidden">
+  </div>
+
+  <!-- Control Button -->
+  <div class="fixed bottom-4 right-4">
+    <button id="toggleSession" class="px-5 py-3 text-base font-medium text-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 transition-colors rounded-lg">
+      Start Session
+    </button>
+  </div>
+</div>
+
+<!-- Load pharmacy-ai.js -->
+<script type="module" src="/js/pharmacy-ai.js"></script>
+{{ end }}

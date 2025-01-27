@@ -1,4 +1,5 @@
 ---
-title: Reception Agent
-layout: reception
+title: "Reception Agent"
+layout: "reception"
+group: "realtime-ai"
 ---
