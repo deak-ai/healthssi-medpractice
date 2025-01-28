@@ -373,14 +373,26 @@ async function handleHealthInfoPresentation() {
       try {
         // Check for prescription data by looking for key fields
         console.log("Received health info: ", event)
-        if (event.fhirBundle) {
-          // Store the prescription data and update PID atomically
-          const healthInfoUpdate = { ...event };
+        
+        // Process verification results
+        if (event.policyResults && event.policyResults.results) {
+          const results = event.policyResults.results;
+          const smartHealthCardCredentials = [];
           
-          // Fetch medication details if GTIN is available          
-          // Update state once with all changes
-          state.healthInfo = healthInfoUpdate;
+          for (const result of results) {
+            if (result.credential === "VerifiablePresentation") {
+              const vpResult = result.policyResults[0];
+              console.log("VerifiablePresentation verification success:", vpResult.is_success);
+            } else if (result.credential === "SmartHealthCard") {
+              const policyResult = result.policyResults[0];
+              if (policyResult && policyResult.result && policyResult.result.vc) {
+                smartHealthCardCredentials.push(policyResult.result.vc);
+              }
+            }
+          }
           
+          console.log("Extracted credential subjects:", smartHealthCardCredentials);
+          state.healthInfo = smartHealthCardCredentials;
 
           // Send message about robot delivery
           setTimeout(() => {
