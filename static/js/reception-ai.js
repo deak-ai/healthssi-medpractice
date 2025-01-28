@@ -80,18 +80,13 @@ function updateHealthInfoDisplay() {
   const qrCodeDisplay = document.getElementById('qrCodeDisplay');
   if (!qrCodeDisplay) return;
 
-  // Check if we need to update the display
-  const existingFrame = document.getElementById('medicationFrame');
-  if (currentState === HEALTH_INFO_STATES.HEALTH_INFO) {
-    return; // Already showing correct content
-  }
 
   switch (currentState) {
     case HEALTH_INFO_STATES.HEALTH_INFO:
       if (state.healthInfo) {
         qrCodeDisplay.innerHTML = `
           <div class="flex flex-col items-center justify-center w-full">
-            <div class="w-full max-w-xl">
+            <div class="w-full">
               <pre class="bg-gray-100 p-4 rounded-lg w-full font-mono text-sm whitespace-pre-wrap break-all" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${JSON.stringify(state.healthInfo, null, 2)}</pre>
             </div>
           </div>
@@ -393,6 +388,8 @@ async function handleHealthInfoPresentation() {
           
           console.log("Extracted credential subjects:", smartHealthCardCredentials);
           state.healthInfo = smartHealthCardCredentials;
+          state.qrCodeData = null; // Clear QR code
+          updateHealthInfoDisplay(); // Force UI update
 
           // Send message about robot delivery
           setTimeout(() => {
