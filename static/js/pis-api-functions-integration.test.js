@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { 
-    initialize_prescription_presentation, 
+    initialize_ssi_presentation, 
     parseOpenId4VpUri, 
     generate_qr_code, 
     byte_array_to_image_url, 
@@ -16,9 +16,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 describe('PIS API Integration Tests', () => {
-     it('should successfully make a real API call to PIS service', async () => {
+     it.skip('should successfully make a real API call to PIS service', async () => {
         try {
-            const result = await initialize_prescription_presentation();
+            const result = await initialize_ssi_presentation("SwissMedicalPrescription");
             
             // Parse and log the URI parameters
             const params = parseOpenId4VpUri(result);
@@ -81,10 +81,10 @@ describe('PIS API Integration Tests', () => {
         }
     }, 10000);
 
-    it.skip('should connect to WebSocket and receive messages', async () => {
+    it('should connect to WebSocket and receive messages', async () => {
         // First get a valid state ID by making a prescription presentation request
         console.log("Running WebSocket test...");
-        const result = await initialize_prescription_presentation();
+        const result = await initialize_ssi_presentation("SwissMedicalPrescription");
         const params = parseOpenId4VpUri(result);
         const stateId = params.state;
         expect(stateId).toBeTruthy();

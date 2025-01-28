@@ -1,6 +1,6 @@
 import { proxy, subscribe } from 'https://cdn.jsdelivr.net/npm/valtio@1.12.0/+esm'
 import { 
-  initialize_prescription_presentation,
+  initialize_ssi_presentation,
   generate_qr_code,
   byte_array_to_image_url,
   parseOpenId4VpUri,
@@ -397,7 +397,7 @@ function sendTextMessage(message) {
 async function handlePrescriptionPresentation() {
   try {
     // Initialize prescription presentation
-    const presentationUri = await initialize_prescription_presentation();
+    const presentationUri = await initialize_ssi_presentation("SwissMedicalPrescription");
     state.presentationUri = presentationUri;
     
     // Parse the URI to get stateId

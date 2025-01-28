@@ -1,6 +1,6 @@
 import { proxy, subscribe } from 'https://cdn.jsdelivr.net/npm/valtio@1.12.0/+esm'
 import { 
-  initialize_prescription_presentation,
+  initialize_ssi_presentation,
   generate_qr_code,
   byte_array_to_image_url,
   parseOpenId4VpUri,
@@ -12,36 +12,36 @@ const state = proxy({
   isSessionActive: false,
   events: [],
   qrCodeData: null,
-  prescriptionData: null,
+  healthInfo: null,
   presentationUri: null
 })
 
-// Constants for prescription states
-const PRESCRIPTION_STATES = {
+// Constants for health info states
+const HEALTH_INFO_STATES = {
   INITIAL: 'initial',
   QR_CODE: 'qr_code',
-  PRESCRIPTION: 'prescription'
+  HEALTH_INFO: 'health_info'
 }
 
-const PRESCRIPTION_MESSAGES = {
-  [PRESCRIPTION_STATES.INITIAL]: "Talk to me if you have a prescription",
-  [PRESCRIPTION_STATES.QR_CODE]: "Please scan this QR Code to present your prescription",
-  [PRESCRIPTION_STATES.PRESCRIPTION]: "Thank you for providing me your prescription"
+const HEALTH_INFO_MESSAGES = {
+  [HEALTH_INFO_STATES.INITIAL]: "Talk to me if you have a need to register your health information",
+  [HEALTH_INFO_STATES.QR_CODE]: "Please scan this QR Code to present your health information",
+  [HEALTH_INFO_STATES.HEALTH_INFO]: "Thank you for providing me your health information"
 }
 
 // Function to reset prescription state
-function resetPrescriptionState() {
+function resetHealthInfoState() {
   state.qrCodeData = null;
-  state.prescriptionData = null;
+  state.healthInfo = null;
   state.presentationUri = null;
-  updatePrescriptionDisplay();
+  updateHealthInfoDisplay();
 }
 
-// Function to get current prescription state
-function getCurrentPrescriptionState() {
-  if (state.prescriptionData) return PRESCRIPTION_STATES.PRESCRIPTION;
-  if (state.qrCodeData) return PRESCRIPTION_STATES.QR_CODE;
-  return PRESCRIPTION_STATES.INITIAL;
+// Function to get current health info state
+function getCurrentHealthInfoState() {
+  if (state.healthInfo) return HEALTH_INFO_STATES.HEALTH_INFO;
+  if (state.qrCodeData) return HEALTH_INFO_STATES.QR_CODE;
+  return HEALTH_INFO_STATES.INITIAL;
 }
 
 // Function to fetch medication details
@@ -67,14 +67,14 @@ async function fetchMedicationDetails(gtin) {
 }
 
 // Function to update prescription display
-function updatePrescriptionDisplay() {
-  const currentState = getCurrentPrescriptionState();
-  const message = PRESCRIPTION_MESSAGES[currentState];
+function updateHealthInfoDisplay() {
+  const currentState = getCurrentHealthInfoState();
+  const message = HEALTH_INFO_MESSAGES[currentState];
   
   // Update the instruction text in the header
-  const prescriptionInstructionElement = document.querySelector('.p-4.border-b p.text-sm');
-  if (prescriptionInstructionElement) {
-    prescriptionInstructionElement.textContent = message;
+  const healthInfoInstructionElement = document.querySelector('.p-4.border-b p.text-sm');
+  if (healthInfoInstructionElement) {
+    healthInfoInstructionElement.textContent = message;
   }
 
   const qrCodeDisplay = document.getElementById('qrCodeDisplay');
@@ -82,70 +82,24 @@ function updatePrescriptionDisplay() {
 
   // Check if we need to update the display
   const existingFrame = document.getElementById('medicationFrame');
-  if (currentState === PRESCRIPTION_STATES.PRESCRIPTION && 
-      state.prescriptionData?.medicationPid && 
-      existingFrame?.src.includes(state.prescriptionData.medicationPid)) {
-    return; // Frame already showing correct content
+  if (currentState === HEALTH_INFO_STATES.HEALTH_INFO) {
+    return; // Already showing correct content
   }
 
   switch (currentState) {
-    case PRESCRIPTION_STATES.PRESCRIPTION:
-      if (state.prescriptionData) {
-        if (state.prescriptionData.medicationPid) {
-          qrCodeDisplay.innerHTML = `
-            <div class="flex flex-col items-center justify-center w-full h-full flex-1">
-              <div class="w-full h-full relative">
-                <div class="bg-white h-full">
-                  <div id="iframeLoader" class="absolute inset-0 flex items-center justify-center bg-gray-50">
-                    <div role="status" class="inline-block">
-                      <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-primary-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-                      </svg>
-                      <span class="sr-only">Loading...</span>
-                    </div>
-                  </div>
-                  <iframe 
-                    id="medicationFrame"
-                    src="https://med.mymedi.ch/article/show/${state.prescriptionData.medicationPid}"
-                    class="w-full h-full relative z-10 opacity-0 transition-opacity duration-300"
-                    style="border: 0; display: block; min-height: calc(100vh - 20rem);"
-                    title="Medication Information"
-                    onload="this.classList.remove('opacity-0')"
-                  >
-                  </iframe>
-                </div>
-              </div>
+    case HEALTH_INFO_STATES.HEALTH_INFO:
+      if (state.healthInfo) {
+        qrCodeDisplay.innerHTML = `
+          <div class="flex flex-col items-center justify-center w-full">
+            <div class="w-full max-w-xl">
+              <pre class="bg-gray-100 p-4 rounded-lg w-full font-mono text-sm whitespace-pre-wrap break-all" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${JSON.stringify(state.healthInfo, null, 2)}</pre>
             </div>
-          `;
-        } else if (state.prescriptionData.medicationRefData?.gtin) {
-          // Show loading state while fetching PID
-          qrCodeDisplay.innerHTML = `
-            <div class="flex flex-col items-center justify-center w-full h-full">
-              <div role="status" class="inline-block">
-                <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-primary-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                  <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-                </svg>
-                <span class="sr-only">Loading medication details...</span>
-              </div>
-              <p class="mt-2 text-sm text-gray-500">Loading medication details...</p>
-            </div>
-          `;
-        } else {
-          // Fallback to just showing prescription data if no GTIN available
-          qrCodeDisplay.innerHTML = `
-            <div class="flex flex-col items-center justify-center w-full">
-              <div class="w-full max-w-xl">
-                <pre class="bg-gray-100 p-4 rounded-lg w-full font-mono text-sm whitespace-pre-wrap break-all" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${JSON.stringify(state.prescriptionData, null, 2)}</pre>
-              </div>
-            </div>
-          `;
-        }
+          </div>
+        `;
       }
       break;
 
-    case PRESCRIPTION_STATES.QR_CODE:
+    case HEALTH_INFO_STATES.QR_CODE:
       qrCodeDisplay.innerHTML = `
         <div class="flex flex-col items-center justify-center w-full">
           <div class="w-full max-w-xl flex items-center justify-center mb-4">
@@ -234,14 +188,14 @@ async function startSession() {
           if (output.type === 'function_call') {
             if (output.name === 'present_qr_code') {
               try {
-                handlePrescriptionPresentation()
+                handleHealthInfoPresentation()
                   .then(() => {
                     // Ask for feedback after QR code is displayed
                     setTimeout(() => {
                       sendClientEvent({
                         type: "response.create",
                         response: {
-                          instructions: "ask them to scan the QR code with their SSI wallet present their prescription"
+                          instructions: "ask them to scan the QR code with their SSI wallet to securely present their health information"
                         }
                       })
                     }, 500)
@@ -252,20 +206,20 @@ async function startSession() {
               } catch (e) {
                 console.error('Failed to handle QR code generation:', e)
               }
-            } else if (output.name === 'reset_prescription') {
+            } else if (output.name === 'reset_health_info') {
               try {
-                resetPrescriptionState();
+                resetHealthInfoState();
                 // Confirm the reset
                 setTimeout(() => {
                   sendClientEvent({
                     type: "response.create",
                     response: {
-                      instructions: "Ask them how else you can be of assistance, stating your capabilities with the exception of resetting the prescription state"
+                      instructions: "Ask them how else you can be of assistance, stating your capabilities with the exception of resetting the health info state"
                     }
                   })
                 }, 500)
               } catch (e) {
-                console.error('Failed to reset prescription state:', e)
+                console.error('Failed to reset health info state:', e)
               }
             }
           }
@@ -311,9 +265,10 @@ async function startSession() {
               type: "function",
               name: "present_qr_code",
               // break the below string into multiple lines to make it more readable
-              description: "Call this function when a user asks about a prescription (note this is not a real medical prescription)." 
-                  +"This will allow you to generate a QR code to show the user which they can then scan with their SSI wallet in order to present their prescription."
-                  +"The underlying flow is an OpenID4VP presentation flow, but don't bore the user with these details, just so you know.",
+              description: "Call this function when a user asks about a registering their health information." 
+                  +"This will allow you to generate a QR code to show the user which they can then scan with their SSI wallet in order to securelypresent their health information. "
+                  +"The underlying flow is an OpenID4VP presentation flow, but don't bore the user with these details, just so you know. "
+                  +"Also, this means that none of the users information will be sent to you, it stays securely within the system.",
               parameters: {
                 type: "object",
                 strict: true,
@@ -323,8 +278,8 @@ async function startSession() {
             },
             {
               type: "function",
-              name: "reset_prescription",
-              description: "Call this function to reset the prescription state",
+              name: "reset_health_info",
+              description: "Call this function to reset the health info state",
               parameters: {
                 type: "object",
                 strict: true,
@@ -394,10 +349,10 @@ function sendTextMessage(message) {
 }
 
 // Function to handle prescription presentation
-async function handlePrescriptionPresentation() {
+async function handleHealthInfoPresentation() {
   try {
     // Initialize prescription presentation
-    const presentationUri = await initialize_prescription_presentation();
+    const presentationUri = await initialize_ssi_presentation("SmartHealthCard");
     state.presentationUri = presentationUri;
     
     // Parse the URI to get stateId
@@ -413,39 +368,33 @@ async function handlePrescriptionPresentation() {
     state.qrCodeData = byte_array_to_image_url(qrCodeBytes);
     
     // Set up WebSocket subscription for status updates
+    console.log("Subscribing to WebSocket for stateId: ", stateId)
     const messageHandler = async (event) => {
       try {
         // Check for prescription data by looking for key fields
-        if (event.prescriptionId && event.medicationRefData) {
+        console.log("Received health info: ", event)
+        if (event.fhirBundle) {
           // Store the prescription data and update PID atomically
-          const prescriptionUpdate = { ...event };
+          const healthInfoUpdate = { ...event };
           
-          // Fetch medication details if GTIN is available
-          if (event.medicationRefData?.gtin) {
-            try {
-              const pid = await fetchMedicationDetails(event.medicationRefData.gtin);
-              prescriptionUpdate.medicationPid = pid;
-            } catch (error) {
-              console.error('Error fetching medication details:', error);
-            }
-          }
-          
+          // Fetch medication details if GTIN is available          
           // Update state once with all changes
-          state.prescriptionData = prescriptionUpdate;
+          state.healthInfo = healthInfoUpdate;
           
+
           // Send message about robot delivery
           setTimeout(() => {
             sendClientEvent({
               type: "response.create",
               response: {
-                instructions: "Now say thank you to the user for providing their prescription and tell them"
-                +" that a friendly robots will hand it to them shortly."
+                instructions: "Now say thank you to the user for providing their health info and to take a seat in the waiting room. "
+                + "The Doctor will be with them shortly"
               }
             })
           }, 500)
         }
       } catch (error) {
-        console.error('Error handling prescription data:', error)
+        console.error('Error handling health info: ', error)
       }
     };
     
@@ -453,8 +402,8 @@ async function handlePrescriptionPresentation() {
     subscribe_to_notifications(stateId, messageHandler);
     
   } catch (error) {
-    console.error('Error in prescription presentation:', error);
-    state.error = `Failed to handle prescription presentation: ${error.message}`;
+    console.error('Error in health info presentation:', error);
+    state.error = `Failed to handle health info presentation: ${error.message}`;
   }
 }
 
@@ -515,7 +464,7 @@ function updateUI() {
   }
   
   // Update prescription display
-  updatePrescriptionDisplay();
+  updateHealthInfoDisplay();
   
   // Update event log
   eventLog.innerHTML = state.events.map(event => {

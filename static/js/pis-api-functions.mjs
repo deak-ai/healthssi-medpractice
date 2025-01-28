@@ -4,23 +4,30 @@
  * Functions for interacting with the PIS API service
  */
 
+const PIS_BASE_URL = window.params?.pis_base_url || 'https://pis.healthwallet.li';
+
 /**
- * Initializes a prescription presentation request by calling the PIS API.
+ * Initializes a OIDC4VP presentation request by calling the PIS API.
+ * @param {string} credentialType - The type of credential to request (e.g., "SwissMedicalPrescription")
  * @returns {Promise<string>} A promise that resolves to the authorization URI
  * @throws {Error} If the API call fails
  */
-export async function initialize_prescription_presentation() {
+export async function initialize_ssi_presentation(credentialType) {
+    if (!credentialType) {
+        throw new Error('credentialType parameter is required');
+    }
+
     const requestPayload = {
         authorizeBaseUrl: "openid4vp://authorize",
         responseMode: "direct_post",
         successRedirectUri: null,
         errorRedirectUri: null,
-        statusCallbackUri: "https://pis.healthwallet.li/vp/status",
+        statusCallbackUri: `${PIS_BASE_URL}/vp/status`,
         presentationDefinition: {
             request_credentials: [
                 {
                     format: "jwt_vc_json",
-                    type: "SwissMedicalPrescription"
+                    type: credentialType
                 }
             ]
         }
@@ -40,7 +47,7 @@ export async function initialize_prescription_presentation() {
         };
 
         // Make the request
-        const response = await fetch('https://pis.healthwallet.li/vp/request', fetchOptions);
+        const response = await fetch(`${PIS_BASE_URL}/vp/request`, fetchOptions);
 
         if (!response) {
             throw new Error('No response received from the server');
@@ -62,7 +69,7 @@ export async function initialize_prescription_presentation() {
 
         return responseText.trim();
     } catch (error) {
-        console.error('Error initializing prescription presentation:', {
+        console.error('Error initializing OIDC4VP presentation:', {
             name: error.name,
             message: error.message,
             stack: error.stack
@@ -120,7 +127,7 @@ export function parseOpenId4VpUri(uri) {
  */
 export async function generate_qr_code(text) {
     try {
-        const response = await fetch('https://pis.healthwallet.li/utils/qrcode', {
+        const response = await fetch(`${PIS_BASE_URL}/utils/qrcode`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'text/plain'
@@ -172,7 +179,7 @@ export function subscribe_to_notifications(stateId, onMessage, WebSocketClass) {
     }
 
     // Construct the WebSocket URL
-    const wsUrl = `wss://pis.healthwallet.li/notifications/${stateId}`;
+    const wsUrl = `wss://${PIS_BASE_URL.replace('https://', '')}/notifications/${stateId}`;
     
     // Use provided WebSocket class (Node.js) or browser's WebSocket
     const WS = WebSocketClass || (typeof WebSocket !== 'undefined' ? WebSocket : null);

@@ -9,6 +9,7 @@ params:
   homepage: "https://flowbite.com/"
   authors: Themesberg
   social_image_path: images/og-image.png
+  pis_base_url: "https://pis.healthwallet.li"
 
 markup:
   goldmark:
