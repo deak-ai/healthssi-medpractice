@@ -4,7 +4,17 @@
  * Functions for interacting with the PIS API service
  */
 
-const PIS_BASE_URL = window.params?.pis_base_url || 'https://pis.healthwallet.li';
+let PIS_BASE_URL = 'https://pis.healthwallet.li';
+
+// Allow setting the base URL for testing purposes
+export function setPisBaseUrl(url) {
+    PIS_BASE_URL = url;
+}
+
+// Try to get the base URL from window.params if available
+if (typeof window !== 'undefined' && window.params?.pis_base_url) {
+    PIS_BASE_URL = window.params.pis_base_url;
+}
 
 /**
  * Initializes a OIDC4VP presentation request by calling the PIS API.

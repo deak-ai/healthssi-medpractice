@@ -1,11 +1,13 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { initialize_ssi_presentation, parseOpenId4VpUri, byte_array_to_image_url } from './pis-api-functions.mjs';
+import { initialize_ssi_presentation, parseOpenId4VpUri, byte_array_to_image_url, setPisBaseUrl } from './pis-api-functions.mjs';
 import fetch from 'node-fetch';
 
 describe('PIS API Functions', () => {
     beforeEach(() => {
         // Reset fetch mock before each test
         global.fetch = vi.fn();
+        // Set a test base URL
+        setPisBaseUrl('https://test-pis.healthwallet.li');
     });
 
     describe('initialize_prescription_presentation', () => {

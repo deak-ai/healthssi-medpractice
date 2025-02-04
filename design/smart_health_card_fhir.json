@@ -1,0 +1,1846 @@
+[
+    {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1"
+      ],
+      "id": "urn:uuid:a9c8ca72-e835-4535-9dd9-02a28cc67b6c",
+      "type": [
+        "VerifiableCredential",
+        "SmartHealthCard"
+      ],
+      "issuer": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiR0pQdHJrQXExOU1ETUItc2J6Qi1jZHNpT21Lc0R2OUhES2NGam02eHp0VSIsIngiOiJzNy1hQTZyZXNOVEtiOHE1RmIySTBvNEx3X3VKY1FSZUdzcUEtV09PbWVJIn0",
+        "name": "Self-issued Medications",
+        "url": "https://smarthealth.cards",
+        "image": "https://en.wikipedia.org/wiki/SMART_Health_Card#/media/File:SMART_Health_IT_logo.png"
+      },
+      "issuanceDate": "2025-02-04T16:57:56.204688955Z",
+      "issued": "2025-02-04T16:57:56.204751793Z",
+      "expirationDate": "2026-02-04T16:57:56.204785507Z",
+      "credentialSubject": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiMjRTakY5d2hCOGVRSlZRbWJFdmMzbkZiSkhlaXJ1NTMtSGdreDcxeUJCSSIsIngiOiJIanMxbWhsNVk4WkQwd0d1cFFQSngycm9xTWU5VjNvTXEyYmZEdDdKMVRBIn0",
+        "fhirVersion": "4.0.1",
+        "fhirBundle": {
+          "resourceType": "Bundle",
+          "type": "collection",
+          "entry": [
+            {
+              "fullUrl": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b",
+              "resource": {
+                "address": [
+                  {
+                    "city": "Bellingham",
+                    "country": "US",
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "latitude",
+                            "valueDecimal": 42.04829248570033
+                          },
+                          {
+                            "url": "longitude",
+                            "valueDecimal": -71.48965259278238
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/geolocation"
+                      }
+                    ],
+                    "line": [
+                      "705 Hirthe Common"
+                    ],
+                    "state": "Massachusetts"
+                  }
+                ],
+                "birthDate": "1951-09-30",
+                "communication": [
+                  {
+                    "language": {
+                      "coding": [
+                        {
+                          "code": "en-US",
+                          "display": "English",
+                          "system": "urn:ietf:bcp:47"
+                        }
+                      ],
+                      "text": "English"
+                    }
+                  }
+                ],
+                "deceasedDateTime": "2015-12-07T11:58:57+01:00",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
+                    "valueString": "Casandra937 Cruickshank494"
+                  },
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                    "valueAddress": {
+                      "city": "Brookline",
+                      "country": "US",
+                      "state": "Massachusetts"
+                    }
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/disability-adjusted-life-years",
+                    "valueDecimal": 2.309202680412174
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/quality-adjusted-life-years",
+                    "valueDecimal": 60.69079731958782
+                  }
+                ],
+                "gender": "female",
+                "identifier": [
+                  {
+                    "system": "https://github.com/synthetichealth/synthea",
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hospital.smarthealthit.org",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "MR",
+                          "display": "Medical Record Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Medical Record Number"
+                    },
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hl7.org/fhir/sid/us-ssn",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "SS",
+                          "display": "Social Security Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Social Security Number"
+                    },
+                    "value": "999-72-5451"
+                  },
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.4.3.25",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "DL",
+                          "display": "Driver's License",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Driver's License"
+                    },
+                    "value": "S99973062"
+                  },
+                  {
+                    "system": "http://standardhealthrecord.org/fhir/StructureDefinition/passportNumber",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "PPN",
+                          "display": "Passport Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Passport Number"
+                    },
+                    "value": "X78517412X"
+                  }
+                ],
+                "maritalStatus": {
+                  "coding": [
+                    {
+                      "code": "S",
+                      "display": "S",
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"
+                    }
+                  ],
+                  "text": "S"
+                },
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "multipleBirthBoolean": false,
+                "name": [
+                  {
+                    "family": "Altenwerth646",
+                    "given": [
+                      "Adah626"
+                    ],
+                    "prefix": [
+                      "Ms."
+                    ],
+                    "use": "official"
+                  }
+                ],
+                "resourceType": "Patient",
+                "telecom": [
+                  {
+                    "system": "phone",
+                    "use": "home",
+                    "value": "555-687-6600"
+                  }
+                ],
+                "text": {
+                  "div": "Generated by Synthea.Version identifier: synthea-java .   Person seed: -7254050089764288875  Population seed: 1709661719604",
+                  "status": "generated"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:de5acd8f-8cff-45f8-b3b9-2cb1bf7d5962",
+              "resource": {
+                "authoredOn": "2011-11-27T10:53:57+01:00",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#MedicationRequest-urn:uuid:de5acd8f-8cff-45f8-b3b9-2cb1bf7d5962"
+                  }
+                ],
+                "intent": "order",
+                "medicationCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "904419",
+                      "display": "Alendronic acid 10 MG Oral Tablet",
+                      "system": "http://www.nlm.nih.gov/research/umls/rxnorm"
+                    }
+                  ],
+                  "text": "Alendronic acid 10 MG Oral Tablet"
+                },
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "requester": {
+                  "display": "Dr. Bryon392 Kilback373"
+                },
+                "resourceType": "MedicationRequest",
+                "status": "active",
+                "subject": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:fd0515cb-5b09-4251-8acf-ab4c4ab90cae",
+              "resource": {
+                "authoredOn": "2015-04-04T12:27:57+02:00",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#MedicationRequest-urn:uuid:fd0515cb-5b09-4251-8acf-ab4c4ab90cae"
+                  }
+                ],
+                "intent": "order",
+                "medicationCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "1719286",
+                      "display": "10 ML Furosemide 10 MG/ML Injection",
+                      "system": "http://www.nlm.nih.gov/research/umls/rxnorm"
+                    }
+                  ],
+                  "text": "10 ML Furosemide 10 MG/ML Injection"
+                },
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "requester": {
+                  "display": "Dr. Olive251 Pollich983"
+                },
+                "resourceType": "MedicationRequest",
+                "status": "active",
+                "subject": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:8685118b-93ae-499e-9bab-71f5a3a1dc76",
+              "resource": {
+                "authoredOn": "2015-06-28T11:53:57+02:00",
+                "dosageInstruction": [
+                  {
+                    "asNeededBoolean": true,
+                    "sequence": 1,
+                    "text": "Take as needed."
+                  }
+                ],
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#MedicationRequest-urn:uuid:8685118b-93ae-499e-9bab-71f5a3a1dc76"
+                  }
+                ],
+                "intent": "order",
+                "medicationCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "313988",
+                      "display": "Furosemide 40 MG Oral Tablet",
+                      "system": "http://www.nlm.nih.gov/research/umls/rxnorm"
+                    }
+                  ],
+                  "text": "Furosemide 40 MG Oral Tablet"
+                },
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "requester": {
+                  "display": "Dr. Olive251 Pollich983"
+                },
+                "resourceType": "MedicationRequest",
+                "status": "active",
+                "subject": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1"
+      ],
+      "id": "urn:uuid:fa86e914-d492-4489-92c0-5006108625d1",
+      "type": [
+        "VerifiableCredential",
+        "SmartHealthCard"
+      ],
+      "issuer": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiVUpPRmJpbURWNnpLNmtpcFFQWC1DQkoxeWNiV0pTMWxKTGR6STdaZ08yRSIsIngiOiJJM3ZnaTFPTDYzNGVPdEZHY29zWEZXZmlVR3lOWFNXYkZLWVZqbkRmX0VzIn0",
+        "name": "Self-issued Problems",
+        "url": "https://smarthealth.cards",
+        "image": "https://en.wikipedia.org/wiki/SMART_Health_Card#/media/File:SMART_Health_IT_logo.png"
+      },
+      "issuanceDate": "2025-02-04T16:58:01.036889970Z",
+      "issued": "2025-02-04T16:58:01.036990630Z",
+      "expirationDate": "2026-02-04T16:58:01.037045724Z",
+      "credentialSubject": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiMjRTakY5d2hCOGVRSlZRbWJFdmMzbkZiSkhlaXJ1NTMtSGdreDcxeUJCSSIsIngiOiJIanMxbWhsNVk4WkQwd0d1cFFQSngycm9xTWU5VjNvTXEyYmZEdDdKMVRBIn0",
+        "fhirVersion": "4.0.1",
+        "fhirBundle": {
+          "resourceType": "Bundle",
+          "type": "collection",
+          "entry": [
+            {
+              "fullUrl": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b",
+              "resource": {
+                "address": [
+                  {
+                    "city": "Bellingham",
+                    "country": "US",
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "latitude",
+                            "valueDecimal": 42.04829248570033
+                          },
+                          {
+                            "url": "longitude",
+                            "valueDecimal": -71.48965259278238
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/geolocation"
+                      }
+                    ],
+                    "line": [
+                      "705 Hirthe Common"
+                    ],
+                    "state": "Massachusetts"
+                  }
+                ],
+                "birthDate": "1951-09-30",
+                "communication": [
+                  {
+                    "language": {
+                      "coding": [
+                        {
+                          "code": "en-US",
+                          "display": "English",
+                          "system": "urn:ietf:bcp:47"
+                        }
+                      ],
+                      "text": "English"
+                    }
+                  }
+                ],
+                "deceasedDateTime": "2015-12-07T11:58:57+01:00",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
+                    "valueString": "Casandra937 Cruickshank494"
+                  },
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                    "valueAddress": {
+                      "city": "Brookline",
+                      "country": "US",
+                      "state": "Massachusetts"
+                    }
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/disability-adjusted-life-years",
+                    "valueDecimal": 2.309202680412174
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/quality-adjusted-life-years",
+                    "valueDecimal": 60.69079731958782
+                  }
+                ],
+                "gender": "female",
+                "identifier": [
+                  {
+                    "system": "https://github.com/synthetichealth/synthea",
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hospital.smarthealthit.org",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "MR",
+                          "display": "Medical Record Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Medical Record Number"
+                    },
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hl7.org/fhir/sid/us-ssn",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "SS",
+                          "display": "Social Security Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Social Security Number"
+                    },
+                    "value": "999-72-5451"
+                  },
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.4.3.25",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "DL",
+                          "display": "Driver's License",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Driver's License"
+                    },
+                    "value": "S99973062"
+                  },
+                  {
+                    "system": "http://standardhealthrecord.org/fhir/StructureDefinition/passportNumber",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "PPN",
+                          "display": "Passport Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Passport Number"
+                    },
+                    "value": "X78517412X"
+                  }
+                ],
+                "maritalStatus": {
+                  "coding": [
+                    {
+                      "code": "S",
+                      "display": "S",
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"
+                    }
+                  ],
+                  "text": "S"
+                },
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "multipleBirthBoolean": false,
+                "name": [
+                  {
+                    "family": "Altenwerth646",
+                    "given": [
+                      "Adah626"
+                    ],
+                    "prefix": [
+                      "Ms."
+                    ],
+                    "use": "official"
+                  }
+                ],
+                "resourceType": "Patient",
+                "telecom": [
+                  {
+                    "system": "phone",
+                    "use": "home",
+                    "value": "555-687-6600"
+                  }
+                ],
+                "text": {
+                  "div": "Generated by Synthea.Version identifier: synthea-java .   Person seed: -7254050089764288875  Population seed: 1709661719604",
+                  "status": "generated"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:96c41a28-c537-4990-ac14-22564d02c9fe",
+              "resource": {
+                "clinicalStatus": {
+                  "coding": [
+                    {
+                      "code": "active",
+                      "system": "http://terminology.hl7.org/CodeSystem/condition-clinical"
+                    }
+                  ]
+                },
+                "code": {
+                  "coding": [
+                    {
+                      "code": "64859006",
+                      "display": "Osteoporosis (disorder)",
+                      "system": "http://snomed.info/sct"
+                    }
+                  ],
+                  "text": "Osteoporosis (disorder)"
+                },
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#Condition-urn:uuid:96c41a28-c537-4990-ac14-22564d02c9fe"
+                  }
+                ],
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "onsetDateTime": "2011-11-27T10:53:57+01:00",
+                "recordedDate": "2011-11-27T10:53:57+01:00",
+                "resourceType": "Condition",
+                "subject": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                },
+                "verificationStatus": {
+                  "coding": [
+                    {
+                      "code": "confirmed",
+                      "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:3bdd4196-cf44-439f-88c4-faeb388ae430",
+              "resource": {
+                "clinicalStatus": {
+                  "coding": [
+                    {
+                      "code": "active",
+                      "system": "http://terminology.hl7.org/CodeSystem/condition-clinical"
+                    }
+                  ]
+                },
+                "code": {
+                  "coding": [
+                    {
+                      "code": "88805009",
+                      "display": "Chronic congestive heart failure (disorder)",
+                      "system": "http://snomed.info/sct"
+                    }
+                  ],
+                  "text": "Chronic congestive heart failure (disorder)"
+                },
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#Condition-urn:uuid:3bdd4196-cf44-439f-88c4-faeb388ae430"
+                  }
+                ],
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "onsetDateTime": "2014-09-22T11:53:57+02:00",
+                "recordedDate": "2014-09-22T11:53:57+02:00",
+                "resourceType": "Condition",
+                "subject": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                },
+                "verificationStatus": {
+                  "coding": [
+                    {
+                      "code": "confirmed",
+                      "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1"
+      ],
+      "id": "urn:uuid:ff90a2de-734b-46f2-b248-ce7ffb9bf638",
+      "type": [
+        "VerifiableCredential",
+        "SmartHealthCard"
+      ],
+      "issuer": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiU1BTLTJVVFhzNG1VMHRuVzdvckVjQnEwdDc4U2VpY3cwal9WNDYxbEg1QSIsIngiOiJUZFgyUnZpUnhQNm9oYWJDelBLalpkOGRuUm16MWdsa3Znd0pTWmhjT0NjIn0",
+        "name": "Self-issued Procedures",
+        "url": "https://smarthealth.cards",
+        "image": "https://en.wikipedia.org/wiki/SMART_Health_Card#/media/File:SMART_Health_IT_logo.png"
+      },
+      "issuanceDate": "2025-02-04T16:58:06.086330537Z",
+      "issued": "2025-02-04T16:58:06.086394438Z",
+      "expirationDate": "2026-02-04T16:58:06.086428742Z",
+      "credentialSubject": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiMjRTakY5d2hCOGVRSlZRbWJFdmMzbkZiSkhlaXJ1NTMtSGdreDcxeUJCSSIsIngiOiJIanMxbWhsNVk4WkQwd0d1cFFQSngycm9xTWU5VjNvTXEyYmZEdDdKMVRBIn0",
+        "fhirVersion": "4.0.1",
+        "fhirBundle": {
+          "resourceType": "Bundle",
+          "type": "collection",
+          "entry": [
+            {
+              "fullUrl": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b",
+              "resource": {
+                "address": [
+                  {
+                    "city": "Bellingham",
+                    "country": "US",
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "latitude",
+                            "valueDecimal": 42.04829248570033
+                          },
+                          {
+                            "url": "longitude",
+                            "valueDecimal": -71.48965259278238
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/geolocation"
+                      }
+                    ],
+                    "line": [
+                      "705 Hirthe Common"
+                    ],
+                    "state": "Massachusetts"
+                  }
+                ],
+                "birthDate": "1951-09-30",
+                "communication": [
+                  {
+                    "language": {
+                      "coding": [
+                        {
+                          "code": "en-US",
+                          "display": "English",
+                          "system": "urn:ietf:bcp:47"
+                        }
+                      ],
+                      "text": "English"
+                    }
+                  }
+                ],
+                "deceasedDateTime": "2015-12-07T11:58:57+01:00",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
+                    "valueString": "Casandra937 Cruickshank494"
+                  },
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                    "valueAddress": {
+                      "city": "Brookline",
+                      "country": "US",
+                      "state": "Massachusetts"
+                    }
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/disability-adjusted-life-years",
+                    "valueDecimal": 2.309202680412174
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/quality-adjusted-life-years",
+                    "valueDecimal": 60.69079731958782
+                  }
+                ],
+                "gender": "female",
+                "identifier": [
+                  {
+                    "system": "https://github.com/synthetichealth/synthea",
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hospital.smarthealthit.org",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "MR",
+                          "display": "Medical Record Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Medical Record Number"
+                    },
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hl7.org/fhir/sid/us-ssn",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "SS",
+                          "display": "Social Security Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Social Security Number"
+                    },
+                    "value": "999-72-5451"
+                  },
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.4.3.25",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "DL",
+                          "display": "Driver's License",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Driver's License"
+                    },
+                    "value": "S99973062"
+                  },
+                  {
+                    "system": "http://standardhealthrecord.org/fhir/StructureDefinition/passportNumber",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "PPN",
+                          "display": "Passport Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Passport Number"
+                    },
+                    "value": "X78517412X"
+                  }
+                ],
+                "maritalStatus": {
+                  "coding": [
+                    {
+                      "code": "S",
+                      "display": "S",
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"
+                    }
+                  ],
+                  "text": "S"
+                },
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "multipleBirthBoolean": false,
+                "name": [
+                  {
+                    "family": "Altenwerth646",
+                    "given": [
+                      "Adah626"
+                    ],
+                    "prefix": [
+                      "Ms."
+                    ],
+                    "use": "official"
+                  }
+                ],
+                "resourceType": "Patient",
+                "telecom": [
+                  {
+                    "system": "phone",
+                    "use": "home",
+                    "value": "555-687-6600"
+                  }
+                ],
+                "text": {
+                  "div": "Generated by Synthea.Version identifier: synthea-java .   Person seed: -7254050089764288875  Population seed: 1709661719604",
+                  "status": "generated"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:ff0eae83-526c-49de-a977-70c071720a0d",
+              "resource": {
+                "code": {
+                  "coding": [
+                    {
+                      "code": "430193006",
+                      "display": "Medication Reconciliation (procedure)",
+                      "system": "http://snomed.info/sct"
+                    }
+                  ],
+                  "text": "Medication Reconciliation (procedure)"
+                },
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#Procedure-urn:uuid:ff0eae83-526c-49de-a977-70c071720a0d"
+                  }
+                ],
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "performedPeriod": {
+                  "end": "2007-11-04T11:08:57+01:00",
+                  "start": "2007-11-04T10:53:57+01:00"
+                },
+                "resourceType": "Procedure",
+                "status": "completed",
+                "subject": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:3c9b0fa1-b941-4131-93e4-3b87c14a0660",
+              "resource": {
+                "code": {
+                  "coding": [
+                    {
+                      "code": "312681000",
+                      "display": "Bone density scan (procedure)",
+                      "system": "http://snomed.info/sct"
+                    }
+                  ],
+                  "text": "Bone density scan (procedure)"
+                },
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#Procedure-urn:uuid:3c9b0fa1-b941-4131-93e4-3b87c14a0660"
+                  }
+                ],
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "performedPeriod": {
+                  "end": "2011-11-27T11:08:57+01:00",
+                  "start": "2011-11-27T10:53:57+01:00"
+                },
+                "resourceType": "Procedure",
+                "status": "completed",
+                "subject": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:70ba3bac-591e-4f76-b906-051526dd1b5d",
+              "resource": {
+                "code": {
+                  "coding": [
+                    {
+                      "code": "29303009",
+                      "display": "Electrocardiographic procedure",
+                      "system": "http://snomed.info/sct"
+                    }
+                  ],
+                  "text": "Electrocardiographic procedure"
+                },
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#Procedure-urn:uuid:70ba3bac-591e-4f76-b906-051526dd1b5d"
+                  }
+                ],
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "performedPeriod": {
+                  "end": "2014-09-22T11:59:57+02:00",
+                  "start": "2014-09-22T11:53:57+02:00"
+                },
+                "reasonReference": [
+                  {
+                    "display": "Chronic congestive heart failure (disorder)",
+                    "reference": "urn:uuid:3bdd4196-cf44-439f-88c4-faeb388ae430"
+                  }
+                ],
+                "resourceType": "Procedure",
+                "status": "completed",
+                "subject": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1"
+      ],
+      "id": "urn:uuid:4aa8c7e4-8301-4a6b-b78a-9f9c398f78d7",
+      "type": [
+        "VerifiableCredential",
+        "SmartHealthCard"
+      ],
+      "issuer": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiTC1ZWUR4YnBZVGdlNm9XSkdJT29uV19TM20xY1dJd3ZaXzN2aTJXc3NOTSIsIngiOiJVajBJSWQyTS1QT0xodllCN0ttLTlCc2JtaHdFcTZ4MVJneTJlUWhVZ1JBIn0",
+        "name": "Self-issued Immunizations",
+        "url": "https://smarthealth.cards",
+        "image": "https://en.wikipedia.org/wiki/SMART_Health_Card#/media/File:SMART_Health_IT_logo.png"
+      },
+      "issuanceDate": "2025-02-04T16:58:11.115436305Z",
+      "issued": "2025-02-04T16:58:11.115524111Z",
+      "expirationDate": "2026-02-04T16:58:11.115576859Z",
+      "credentialSubject": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiMjRTakY5d2hCOGVRSlZRbWJFdmMzbkZiSkhlaXJ1NTMtSGdreDcxeUJCSSIsIngiOiJIanMxbWhsNVk4WkQwd0d1cFFQSngycm9xTWU5VjNvTXEyYmZEdDdKMVRBIn0",
+        "fhirVersion": "4.0.1",
+        "fhirBundle": {
+          "resourceType": "Bundle",
+          "type": "collection",
+          "entry": [
+            {
+              "fullUrl": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b",
+              "resource": {
+                "address": [
+                  {
+                    "city": "Bellingham",
+                    "country": "US",
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "latitude",
+                            "valueDecimal": 42.04829248570033
+                          },
+                          {
+                            "url": "longitude",
+                            "valueDecimal": -71.48965259278238
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/geolocation"
+                      }
+                    ],
+                    "line": [
+                      "705 Hirthe Common"
+                    ],
+                    "state": "Massachusetts"
+                  }
+                ],
+                "birthDate": "1951-09-30",
+                "communication": [
+                  {
+                    "language": {
+                      "coding": [
+                        {
+                          "code": "en-US",
+                          "display": "English",
+                          "system": "urn:ietf:bcp:47"
+                        }
+                      ],
+                      "text": "English"
+                    }
+                  }
+                ],
+                "deceasedDateTime": "2015-12-07T11:58:57+01:00",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
+                    "valueString": "Casandra937 Cruickshank494"
+                  },
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                    "valueAddress": {
+                      "city": "Brookline",
+                      "country": "US",
+                      "state": "Massachusetts"
+                    }
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/disability-adjusted-life-years",
+                    "valueDecimal": 2.309202680412174
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/quality-adjusted-life-years",
+                    "valueDecimal": 60.69079731958782
+                  }
+                ],
+                "gender": "female",
+                "identifier": [
+                  {
+                    "system": "https://github.com/synthetichealth/synthea",
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hospital.smarthealthit.org",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "MR",
+                          "display": "Medical Record Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Medical Record Number"
+                    },
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hl7.org/fhir/sid/us-ssn",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "SS",
+                          "display": "Social Security Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Social Security Number"
+                    },
+                    "value": "999-72-5451"
+                  },
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.4.3.25",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "DL",
+                          "display": "Driver's License",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Driver's License"
+                    },
+                    "value": "S99973062"
+                  },
+                  {
+                    "system": "http://standardhealthrecord.org/fhir/StructureDefinition/passportNumber",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "PPN",
+                          "display": "Passport Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Passport Number"
+                    },
+                    "value": "X78517412X"
+                  }
+                ],
+                "maritalStatus": {
+                  "coding": [
+                    {
+                      "code": "S",
+                      "display": "S",
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"
+                    }
+                  ],
+                  "text": "S"
+                },
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "multipleBirthBoolean": false,
+                "name": [
+                  {
+                    "family": "Altenwerth646",
+                    "given": [
+                      "Adah626"
+                    ],
+                    "prefix": [
+                      "Ms."
+                    ],
+                    "use": "official"
+                  }
+                ],
+                "resourceType": "Patient",
+                "telecom": [
+                  {
+                    "system": "phone",
+                    "use": "home",
+                    "value": "555-687-6600"
+                  }
+                ],
+                "text": {
+                  "div": "Generated by Synthea.Version identifier: synthea-java .   Person seed: -7254050089764288875  Population seed: 1709661719604",
+                  "status": "generated"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:858d96f8-555e-4868-a400-b82ac60dc54a",
+              "resource": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#Immunization-urn:uuid:858d96f8-555e-4868-a400-b82ac60dc54a"
+                  }
+                ],
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "occurrenceDateTime": "2012-12-02T10:53:57+01:00",
+                "patient": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                },
+                "primarySource": true,
+                "resourceType": "Immunization",
+                "status": "completed",
+                "vaccineCode": {
+                  "coding": [
+                    {
+                      "code": "140",
+                      "display": "Influenza, seasonal, injectable, preservative free",
+                      "system": "http://hl7.org/fhir/sid/cvx"
+                    }
+                  ],
+                  "text": "Influenza, seasonal, injectable, preservative free"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:4f078bdf-faa8-49fa-b395-0a4f719477e3",
+              "resource": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#Immunization-urn:uuid:4f078bdf-faa8-49fa-b395-0a4f719477e3"
+                  }
+                ],
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "occurrenceDateTime": "2012-12-02T10:53:57+01:00",
+                "patient": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                },
+                "primarySource": true,
+                "resourceType": "Immunization",
+                "status": "completed",
+                "vaccineCode": {
+                  "coding": [
+                    {
+                      "code": "113",
+                      "display": "Td (adult) preservative free",
+                      "system": "http://hl7.org/fhir/sid/cvx"
+                    }
+                  ],
+                  "text": "Td (adult) preservative free"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1"
+      ],
+      "id": "urn:uuid:54d4976a-3aaa-4341-b502-79afeb4bf0af",
+      "type": [
+        "VerifiableCredential",
+        "SmartHealthCard"
+      ],
+      "issuer": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoieXd6QTlxWk9OUzN1eHNZelRITGtDVzhtTlFQVl9mRno2eUwxNUNoRFM0YyIsIngiOiJyX1RrbjZOd0hVUlB4cHo3RGl2aVlTaERKN3FyZ293WElLVGRmeDJtYy1rIn0",
+        "name": "Self-issued Results",
+        "url": "https://smarthealth.cards",
+        "image": "https://en.wikipedia.org/wiki/SMART_Health_Card#/media/File:SMART_Health_IT_logo.png"
+      },
+      "issuanceDate": "2025-02-04T16:58:16.147973934Z",
+      "issued": "2025-02-04T16:58:16.148070635Z",
+      "expirationDate": "2026-02-04T16:58:16.148266445Z",
+      "credentialSubject": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiMjRTakY5d2hCOGVRSlZRbWJFdmMzbkZiSkhlaXJ1NTMtSGdreDcxeUJCSSIsIngiOiJIanMxbWhsNVk4WkQwd0d1cFFQSngycm9xTWU5VjNvTXEyYmZEdDdKMVRBIn0",
+        "fhirVersion": "4.0.1",
+        "fhirBundle": {
+          "resourceType": "Bundle",
+          "type": "collection",
+          "entry": [
+            {
+              "fullUrl": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b",
+              "resource": {
+                "address": [
+                  {
+                    "city": "Bellingham",
+                    "country": "US",
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "latitude",
+                            "valueDecimal": 42.04829248570033
+                          },
+                          {
+                            "url": "longitude",
+                            "valueDecimal": -71.48965259278238
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/geolocation"
+                      }
+                    ],
+                    "line": [
+                      "705 Hirthe Common"
+                    ],
+                    "state": "Massachusetts"
+                  }
+                ],
+                "birthDate": "1951-09-30",
+                "communication": [
+                  {
+                    "language": {
+                      "coding": [
+                        {
+                          "code": "en-US",
+                          "display": "English",
+                          "system": "urn:ietf:bcp:47"
+                        }
+                      ],
+                      "text": "English"
+                    }
+                  }
+                ],
+                "deceasedDateTime": "2015-12-07T11:58:57+01:00",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
+                    "valueString": "Casandra937 Cruickshank494"
+                  },
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                    "valueAddress": {
+                      "city": "Brookline",
+                      "country": "US",
+                      "state": "Massachusetts"
+                    }
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/disability-adjusted-life-years",
+                    "valueDecimal": 2.309202680412174
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/quality-adjusted-life-years",
+                    "valueDecimal": 60.69079731958782
+                  }
+                ],
+                "gender": "female",
+                "identifier": [
+                  {
+                    "system": "https://github.com/synthetichealth/synthea",
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hospital.smarthealthit.org",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "MR",
+                          "display": "Medical Record Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Medical Record Number"
+                    },
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hl7.org/fhir/sid/us-ssn",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "SS",
+                          "display": "Social Security Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Social Security Number"
+                    },
+                    "value": "999-72-5451"
+                  },
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.4.3.25",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "DL",
+                          "display": "Driver's License",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Driver's License"
+                    },
+                    "value": "S99973062"
+                  },
+                  {
+                    "system": "http://standardhealthrecord.org/fhir/StructureDefinition/passportNumber",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "PPN",
+                          "display": "Passport Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Passport Number"
+                    },
+                    "value": "X78517412X"
+                  }
+                ],
+                "maritalStatus": {
+                  "coding": [
+                    {
+                      "code": "S",
+                      "display": "S",
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"
+                    }
+                  ],
+                  "text": "S"
+                },
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "multipleBirthBoolean": false,
+                "name": [
+                  {
+                    "family": "Altenwerth646",
+                    "given": [
+                      "Adah626"
+                    ],
+                    "prefix": [
+                      "Ms."
+                    ],
+                    "use": "official"
+                  }
+                ],
+                "resourceType": "Patient",
+                "telecom": [
+                  {
+                    "system": "phone",
+                    "use": "home",
+                    "value": "555-687-6600"
+                  }
+                ],
+                "text": {
+                  "div": "Generated by Synthea.Version identifier: synthea-java .   Person seed: -7254050089764288875  Population seed: 1709661719604",
+                  "status": "generated"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:e41645e4-6297-47c5-aad2-962cfacdfd00",
+              "resource": {
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "code": "LAB",
+                        "display": "Laboratory",
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0074"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "code": "57698-3",
+                      "display": "Lipid Panel",
+                      "system": "http://loinc.org"
+                    }
+                  ],
+                  "text": "Lipid Panel"
+                },
+                "effectiveDateTime": "2007-11-04T10:53:57+01:00",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#DiagnosticReport-urn:uuid:e41645e4-6297-47c5-aad2-962cfacdfd00"
+                  }
+                ],
+                "issued": "2007-11-04T10:53:57.972+01:00",
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "resourceType": "DiagnosticReport",
+                "result": [
+                  {
+                    "display": "Total Cholesterol",
+                    "reference": "urn:uuid:c640684d-7c8a-4b38-936b-16758e214bac"
+                  },
+                  {
+                    "display": "Triglycerides",
+                    "reference": "urn:uuid:18bd0737-0873-4749-9b3c-aa2f7022cc1c"
+                  },
+                  {
+                    "display": "Low Density Lipoprotein Cholesterol",
+                    "reference": "urn:uuid:d27c2587-547a-47a5-a8e2-50fdc464e61c"
+                  },
+                  {
+                    "display": "High Density Lipoprotein Cholesterol",
+                    "reference": "urn:uuid:96c9f272-ebd3-418d-a401-b7bb560f24ee"
+                  }
+                ],
+                "status": "final",
+                "subject": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:bf643bc9-1848-4969-9914-f910ed976759",
+              "resource": {
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "code": "LAB",
+                        "display": "Laboratory",
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0074"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "code": "58410-2",
+                      "display": "Complete blood count (hemogram) panel - Blood by Automated count",
+                      "system": "http://loinc.org"
+                    }
+                  ],
+                  "text": "Complete blood count (hemogram) panel - Blood by Automated count"
+                },
+                "effectiveDateTime": "2008-11-09T10:53:57+01:00",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#DiagnosticReport-urn:uuid:bf643bc9-1848-4969-9914-f910ed976759"
+                  }
+                ],
+                "issued": "2008-11-09T10:53:57.972+01:00",
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "resourceType": "DiagnosticReport",
+                "result": [
+                  {
+                    "display": "Leukocytes [#/volume] in Blood by Automated count",
+                    "reference": "urn:uuid:97ce3a31-4dc7-4fd4-96d5-73740695f5c1"
+                  },
+                  {
+                    "display": "Erythrocytes [#/volume] in Blood by Automated count",
+                    "reference": "urn:uuid:615ddbbc-4632-42ff-8681-10ab16b1eb7b"
+                  },
+                  {
+                    "display": "Hemoglobin [Mass/volume] in Blood",
+                    "reference": "urn:uuid:c633cf77-9c48-4169-b9ae-1f0237588f2b"
+                  },
+                  {
+                    "display": "Hematocrit [Volume Fraction] of Blood by Automated count",
+                    "reference": "urn:uuid:fa616d6a-7966-423e-b166-4f9fd8af1ff2"
+                  },
+                  {
+                    "display": "MCV [Entitic volume] by Automated count",
+                    "reference": "urn:uuid:360568e6-41e3-4d2f-abbc-ba1763199c63"
+                  },
+                  {
+                    "display": "MCH [Entitic mass] by Automated count",
+                    "reference": "urn:uuid:33ea573c-cc92-44eb-8692-1a0582a11fc5"
+                  },
+                  {
+                    "display": "MCHC [Mass/volume] by Automated count",
+                    "reference": "urn:uuid:4d308d28-6afc-4c5b-a4ba-252a34db6d14"
+                  },
+                  {
+                    "display": "Erythrocyte distribution width [Entitic volume] by Automated count",
+                    "reference": "urn:uuid:5df219a0-0a14-49fa-8412-27f4d26e7759"
+                  },
+                  {
+                    "display": "Platelets [#/volume] in Blood by Automated count",
+                    "reference": "urn:uuid:8b4017e6-4cb3-4053-a77e-99ccf80da091"
+                  },
+                  {
+                    "display": "Platelet distribution width [Entitic volume] in Blood by Automated count",
+                    "reference": "urn:uuid:fbd41ac6-6df6-4624-b48b-c1ae1fb790d3"
+                  },
+                  {
+                    "display": "Platelet mean volume [Entitic volume] in Blood by Automated count",
+                    "reference": "urn:uuid:2b5f9f2c-4670-4e7e-b0a9-5606d2dbb350"
+                  }
+                ],
+                "status": "final",
+                "subject": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1"
+      ],
+      "id": "urn:uuid:902e552b-2d0a-4565-80c1-ab50c8a54bbb",
+      "type": [
+        "VerifiableCredential",
+        "SmartHealthCard"
+      ],
+      "issuer": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiTEZvOXIzSGxPdnNhcXdsYnd2RHk0U3Rlbk1VanhNRXlzTExJeW5UR2lZMCIsIngiOiJsNUpHOGltSUVwdmluTEFHSi1QRVhfZXp1NG5lR1hPVzMtMWJub3lIN19zIn0",
+        "name": "Self-issued Allergies",
+        "url": "https://smarthealth.cards",
+        "image": "https://en.wikipedia.org/wiki/SMART_Health_Card#/media/File:SMART_Health_IT_logo.png"
+      },
+      "issuanceDate": "2025-02-04T16:57:50.939169752Z",
+      "issued": "2025-02-04T16:57:50.939240726Z",
+      "expirationDate": "2026-02-04T16:57:50.939276553Z",
+      "credentialSubject": {
+        "id": "did:jwk:eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiMjRTakY5d2hCOGVRSlZRbWJFdmMzbkZiSkhlaXJ1NTMtSGdreDcxeUJCSSIsIngiOiJIanMxbWhsNVk4WkQwd0d1cFFQSngycm9xTWU5VjNvTXEyYmZEdDdKMVRBIn0",
+        "fhirVersion": "4.0.1",
+        "fhirBundle": {
+          "resourceType": "Bundle",
+          "type": "collection",
+          "entry": [
+            {
+              "fullUrl": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b",
+              "resource": {
+                "address": [
+                  {
+                    "city": "Bellingham",
+                    "country": "US",
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "latitude",
+                            "valueDecimal": 42.04829248570033
+                          },
+                          {
+                            "url": "longitude",
+                            "valueDecimal": -71.48965259278238
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/geolocation"
+                      }
+                    ],
+                    "line": [
+                      "705 Hirthe Common"
+                    ],
+                    "state": "Massachusetts"
+                  }
+                ],
+                "birthDate": "1951-09-30",
+                "communication": [
+                  {
+                    "language": {
+                      "coding": [
+                        {
+                          "code": "en-US",
+                          "display": "English",
+                          "system": "urn:ietf:bcp:47"
+                        }
+                      ],
+                      "text": "English"
+                    }
+                  }
+                ],
+                "deceasedDateTime": "2015-12-07T11:58:57+01:00",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
+                    "valueString": "Casandra937 Cruickshank494"
+                  },
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                    "valueAddress": {
+                      "city": "Brookline",
+                      "country": "US",
+                      "state": "Massachusetts"
+                    }
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/disability-adjusted-life-years",
+                    "valueDecimal": 2.309202680412174
+                  },
+                  {
+                    "url": "http://synthetichealth.github.io/synthea/quality-adjusted-life-years",
+                    "valueDecimal": 60.69079731958782
+                  }
+                ],
+                "gender": "female",
+                "identifier": [
+                  {
+                    "system": "https://github.com/synthetichealth/synthea",
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hospital.smarthealthit.org",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "MR",
+                          "display": "Medical Record Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Medical Record Number"
+                    },
+                    "value": "18c1edcd-5bb6-81a0-6365-596cf08ed550"
+                  },
+                  {
+                    "system": "http://hl7.org/fhir/sid/us-ssn",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "SS",
+                          "display": "Social Security Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Social Security Number"
+                    },
+                    "value": "999-72-5451"
+                  },
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.4.3.25",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "DL",
+                          "display": "Driver's License",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Driver's License"
+                    },
+                    "value": "S99973062"
+                  },
+                  {
+                    "system": "http://standardhealthrecord.org/fhir/StructureDefinition/passportNumber",
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "PPN",
+                          "display": "Passport Number",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                        }
+                      ],
+                      "text": "Passport Number"
+                    },
+                    "value": "X78517412X"
+                  }
+                ],
+                "maritalStatus": {
+                  "coding": [
+                    {
+                      "code": "S",
+                      "display": "S",
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"
+                    }
+                  ],
+                  "text": "S"
+                },
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "multipleBirthBoolean": false,
+                "name": [
+                  {
+                    "family": "Altenwerth646",
+                    "given": [
+                      "Adah626"
+                    ],
+                    "prefix": [
+                      "Ms."
+                    ],
+                    "use": "official"
+                  }
+                ],
+                "resourceType": "Patient",
+                "telecom": [
+                  {
+                    "system": "phone",
+                    "use": "home",
+                    "value": "555-687-6600"
+                  }
+                ],
+                "text": {
+                  "div": "Generated by Synthea.Version identifier: synthea-java .   Person seed: -7254050089764288875  Population seed: 1709661719604",
+                  "status": "generated"
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:89080431-a2ad-43ce-af79-a97e7081829f",
+              "resource": {
+                "category": [
+                  "food"
+                ],
+                "clinicalStatus": {
+                  "coding": [
+                    {
+                      "code": "active",
+                      "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"
+                    }
+                  ]
+                },
+                "code": {
+                  "coding": [
+                    {
+                      "code": "418689008",
+                      "display": "Allergy to grass pollen",
+                      "system": "http://snomed.info/sct"
+                    }
+                  ],
+                  "text": "Allergy to grass pollen"
+                },
+                "criticality": "low",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#AllergyIntolerance-urn:uuid:89080431-a2ad-43ce-af79-a97e7081829f"
+                  }
+                ],
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "patient": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                },
+                "recordedDate": "1953-03-04T10:53:57+01:00",
+                "resourceType": "AllergyIntolerance",
+                "type": "allergy",
+                "verificationStatus": {
+                  "coding": [
+                    {
+                      "code": "confirmed",
+                      "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:f1421eda-ef95-4ec1-ae00-041486d0b68d",
+              "resource": {
+                "category": [
+                  "food"
+                ],
+                "clinicalStatus": {
+                  "coding": [
+                    {
+                      "code": "active",
+                      "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"
+                    }
+                  ]
+                },
+                "code": {
+                  "coding": [
+                    {
+                      "code": "300913006",
+                      "display": "Shellfish allergy",
+                      "system": "http://snomed.info/sct"
+                    }
+                  ],
+                  "text": "Shellfish allergy"
+                },
+                "criticality": "low",
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/narrativeLink",
+                    "valueUrl": "urn:uuid:d0227cd2-fba1-4f6c-a036-21461924c07a#AllergyIntolerance-urn:uuid:f1421eda-ef95-4ec1-ae00-041486d0b68d"
+                  }
+                ],
+                "meta": {
+                  "lastUpdated": "2024-09-20T13:14:59.529+02:00",
+                  "source": "#f7dhOnG0auZdiJgv",
+                  "versionId": "1"
+                },
+                "patient": {
+                  "reference": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b"
+                },
+                "recordedDate": "1953-03-04T10:53:57+01:00",
+                "resourceType": "AllergyIntolerance",
+                "type": "allergy",
+                "verificationStatus": {
+                  "coding": [
+                    {
+                      "code": "confirmed",
+                      "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]

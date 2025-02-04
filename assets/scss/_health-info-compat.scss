@@ -1,0 +1,59 @@
+// Health Information Display Compatibility Styles
+#health-info-container {
+    // Reset some Tailwind styles that might conflict with Bootstrap
+    h1, h2, h3, h4, h5, h6 {
+        font-size: revert;
+        font-weight: revert;
+        margin: revert;
+    }
+
+    p {
+        margin: revert;
+    }
+
+    // Ensure Bootstrap cards work with dark mode
+    .card {
+        background-color: #fff;
+        .dark & {
+            background-color: #1f2937;
+            border-color: #374151;
+        }
+    }
+
+    .card-header {
+        .dark & {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+    }
+
+    .list-group-item {
+        .dark & {
+            background-color: #1f2937;
+            border-color: #374151;
+            color: #f3f4f6;
+        }
+    }
+
+    // Ensure text is readable in dark mode
+    .dark & {
+        color: #f3f4f6;
+
+        .text-muted,
+        small {
+            color: #9ca3af !important;
+        }
+    }
+
+    // Adjust badge colors for dark mode
+    .dark & {
+        .badge {
+            &.bg-primary { background-color: #3b82f6 !important; }
+            &.bg-secondary { background-color: #6b7280 !important; }
+            &.bg-success { background-color: #10b981 !important; }
+            &.bg-danger { background-color: #ef4444 !important; }
+            &.bg-warning { background-color: #f59e0b !important; }
+            &.bg-info { background-color: #3b82f6 !important; }
+        }
+    }
+}

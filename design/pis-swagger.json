@@ -1,0 +1,616 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "HealthSSI Practice Information System API",
+    "description" : "Interact with the HealthSSI PIS API",
+    "version" : "latest"
+  },
+  "externalDocs" : {
+    "url" : "/"
+  },
+  "servers" : [ {
+    "url" : "/",
+    "description" : "HealthSSI PIS"
+  } ],
+  "tags" : [ ],
+  "paths" : {
+    "/" : {
+      "get" : {
+        "tags" : [ ],
+        "parameters" : [ ],
+        "responses" : { },
+        "deprecated" : false
+      }
+    },
+    "/patients" : {
+      "get" : {
+        "tags" : [ "Patient API" ],
+        "parameters" : [ ],
+        "responses" : { },
+        "deprecated" : false
+      },
+      "post" : {
+        "tags" : [ "Patient API" ],
+        "summary" : "Create a new patient",
+        "description" : "Creates a new electronic patient record.",
+        "parameters" : [ ],
+        "requestBody" : {
+          "description" : "Request to create a new patient",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PatientDTO"
+              },
+              "examples" : {
+                "Sample request without insurance card number" : {
+                  "value" : "{\n    \"FName\":\"Josie\",\n    \"LName\":\"Duran\",\n    \"BDt\":\"1991-06-22\",\n    \"Gender\":2}"
+                },
+                "Sample request with insurance card number" : {
+                  "value" : "{\n    \"FName\":\"John\",\n    \"LName\":\"Dubon\",\n    \"BDt\":\"1981-12-06\",\n    \"Gender\":1,\n    \"Ids\": [\n        {\n            \"Type\": 1,\n            \"Val\": \"GHVS123456\"\n        }\n    ]\n}"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Patient created response with system id (type = 2)",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PatientDTO"
+                },
+                "examples" : {
+                  "Sample response without insurance card number" : {
+                    "value" : "{\n    \"FName\":\"Josie\",\n    \"LName\":\"Duran\",\n    \"BDt\":\"1991-06-22\",\n    \"Gender\":2,\n    \"Ids\": [\n        {\n            \"Type\": 2,\n            \"Val\": 27\n        }\n    ]\n}"
+                  },
+                  "Sample response with insurance card number" : {
+                    "value" : "{\n    \"FName\":\"John\",\n    \"LName\":\"Dubon\",\n    \"BDt\":\"1981-12-06\",\n    \"Gender\":1,\n    \"Ids\": [\n        {\n            \"Type\": 1,\n            \"Val\": \"GHVS123456\"\n        },\n        {\n            \"Type\": 2,\n            \"Val\": 28\n        }\n    ]\n}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/patients/{id}" : {
+      "get" : {
+        "tags" : [ "Patient API" ],
+        "summary" : "Gets a patient based on the patient id",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : { },
+        "deprecated" : false
+      }
+    },
+    "/patients/{id}/medications" : {
+      "post" : {
+        "tags" : [ "Patient API" ],
+        "summary" : "Create a new medication prescription for a patient",
+        "description" : "Creates a new electronic prescription for a patient.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The system id (type 2) of the patient (Int)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Request to create a new medication prescription",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/MedicationDTO"
+              },
+              "examples" : {
+                "Sample medication prescription" : {
+                  "value" : "{\n    \"Auth\": \"GLN543210\",\n    \"Medicaments\": [\n        {\n            \"Id\": \"7680332730610\",\n            \"IdType\": 2\n        }\n    ]\n}"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Medication prescription created response",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MedicationDTO"
+                },
+                "examples" : {
+                  "Sample Medication prescription response including patient" : {
+                    "value" : "{\n    \"Id\": \"7ea2d353-2642-40da-ab87-23d6b39eb066\",\n    \"Auth\": \"GLN543210\",\n    \"Dt\": \"2024-05-21T19:57:24+02:00\",\n    \"Medicaments\": [\n        {\n            \"Id\": \"7680332730610\",\n            \"IdType\": 2\n        }\n    ],\n    \"Patient\": {\n        \"FName\": \"Mina\",\n        \"LName\": \"Meier\",\n        \"BDt\": \"1999-12-17\",\n        \"Ids\": [\n            {\n                \"Type\": 2,\n                \"Val\": \"3\"\n            }\n        ]\n    }\n}      "
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/medications" : {
+      "get" : {
+        "tags" : [ "Medication API" ],
+        "parameters" : [ ],
+        "responses" : { },
+        "deprecated" : false
+      }
+    },
+    "/medications/{id}" : {
+      "get" : {
+        "tags" : [ "Medication API" ],
+        "summary" : "Gets a medication based on its ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : { },
+        "deprecated" : false
+      }
+    },
+    "/medications/refdata/{gtin}" : {
+      "get" : {
+        "tags" : [ "Medication API" ],
+        "summary" : "Gets a medication refdata based on its GTIN",
+        "parameters" : [ {
+          "name" : "gtin",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : { },
+        "deprecated" : false
+      }
+    },
+    "/medications/refdata/findmed" : {
+      "get" : {
+        "tags" : [ "Medication API" ],
+        "summary" : "Gets a medication refdata based on substring of the medication name",
+        "parameters" : [ {
+          "name" : "subString",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : { },
+        "deprecated" : false
+      }
+    },
+    "/medications/refdata/count" : {
+      "get" : {
+        "tags" : [ "Medication API" ],
+        "summary" : "Gets the number of items in the medication refdata embeddings table",
+        "parameters" : [ ],
+        "responses" : { },
+        "deprecated" : false
+      }
+    },
+    "/medications/refdata/embeddings" : {
+      "get" : {
+        "tags" : [ "Medication API" ],
+        "summary" : "Gets a medication embedding based on a string",
+        "parameters" : [ {
+          "name" : "text",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : { },
+        "deprecated" : false
+      }
+    },
+    "/medications/refdata/search" : {
+      "get" : {
+        "tags" : [ "Medication API" ],
+        "summary" : "Gets a list of medications closest to a string",
+        "parameters" : [ {
+          "name" : "text",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : { },
+        "deprecated" : false
+      }
+    },
+    "/vc/issue" : {
+      "post" : {
+        "tags" : [ "Prescription VC Issuance API" ],
+        "summary" : "Issue a medication prescription VC using OID4VCI",
+        "parameters" : [ ],
+        "requestBody" : {
+          "description" : "Request to issue a VC for a medication prescription",
+          "content" : {
+            "text/plain" : {
+              "schema" : {
+                "type" : "string"
+              },
+              "examples" : {
+                "UUID Example" : {
+                  "value" : "13dc576f-e7a6-4abd-a2c5-81e3d49d8487"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Medication prescription VC OID4VC compliant credential offer",
+            "headers" : { },
+            "content" : {
+              "text/plain" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "examples" : {
+                  "Example medication prescription VC openid-credential-offer" : {
+                    "value" : "{\n    \"Id\": \"7ea2d353-2642-40da-ab87-23d6b39eb066\",\n    \"Auth\": \"GLN543210\",\n    \"Dt\": \"2024-05-21T19:57:24+02:00\",\n    \"Medicaments\": [\n        {\n            \"Id\": \"7680332730610\",\n            \"IdType\": 2\n        }\n    ],\n    \"Patient\": {\n        \"FName\": \"Mina\",\n        \"LName\": \"Meier\",\n        \"BDt\": \"1999-12-17\",\n        \"Ids\": [\n            {\n                \"Type\": 2,\n                \"Val\": \"3\"\n            }\n        ]\n    }\n}      "
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/vc/issue/swisseid" : {
+      "post" : {
+        "tags" : [ "Prescription VC Issuance API" ],
+        "summary" : "Issue a swiss e-id VC",
+        "description" : "Issue a swiss e-id credential using OIDC4VP",
+        "parameters" : [ ],
+        "requestBody" : {
+          "description" : "A ",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SwissEidDetail"
+              },
+              "examples" : {
+                "Minimum verify request" : {
+                  "value" : "{  \n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"dateOfBirth\": \"1980-01-01\",\n    \"address\": \"Musterweg 42, 4242 Musterwil, Schweiz\",\n    \"documentId\": \"G7F2A04F7O\"\n}"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OpenID4VP authorization URL",
+            "headers" : { },
+            "content" : {
+              "text/plain" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "examples" : {
+                  "OpenID4VP authorization URL" : {
+                    "value" : "openid-credential-offer://localhost/?credential_offer=%7B%22credential_issuer%22%3A%22http%3A%2F%2Flocalhost%3A8000%22%2C%22credentials%22%3A%5B%22VerifiableId%22%5D%2C%22grants%22%3A%7B%22authorization_code%22%3A%7B%22issuer_state%22%3A%22501414a4-c461-43f0-84b2-c628730c7c02%22%7D%7D%7D"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/vp/request" : {
+      "post" : {
+        "tags" : [ "Prescription VC Verification API" ],
+        "summary" : "Request a prescription VP",
+        "description" : "Request a prescription verifiable presentation using OIDC4VP",
+        "parameters" : [ ],
+        "requestBody" : {
+          "description" : "A verify request",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/VerifyRequest"
+              },
+              "examples" : {
+                "Minimum verify request" : {
+                  "value" : "{\n    \"authorizeBaseUrl\": \"openid4vp://authorize\",\n    \"responseMode\": \"direct_post\",\n    \"statusCallbackUri\": \"https://pis.healthwallet.li/vp/status\",\n    \"presentationDefinition\": {\n        \"request_credentials\": [\n            {\n              \"format\": \"jwt_vc_json\",\n              \"type\": \"SwissMedicalPrescription\"\n            }\n        ]\n    }\n}"
+                },
+                "Full verify request" : {
+                  "value" : "{\n    \"authorizeBaseUrl\": \"openid4vp://authorize\",\n    \"responseMode\": \"direct_post\",\n    \"successRedirectUri\": null,\n    \"errorRedirectUri\": null,\n    \"statusCallbackUri\": \"https://pis.healthwallet.li/vp/status\",\n    \"statusCallbackApiKey\": null,\n    \"stateId\": null,\n    \"presentationDefinition\": {\n        \"request_credentials\": [\n            {\n              \"format\": \"jwt_vc_json\",\n              \"type\": \"SwissMedicalPrescription\"\n            }\n        ]\n    }\n}"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OpenID4VP authorization URL",
+            "headers" : { },
+            "content" : {
+              "text/plain" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "examples" : {
+                  "OpenID4VP authorization URL" : {
+                    "value" : "openid4vp://authorize?response_type=vp_token&client_id=&response_mode=direct_post&state=QVvKz9NxPcFB&presentation_definition_uri=https%3A%2F%2Fverifier.portal.walt.id%2Fopenid4vc%2Fpd%2FQVvKz9NxPcFB&client_id_scheme=redirect_uri&response_uri=https%3A%2F%2Fverifier.portal.walt.id%2Fopenid4vc%2Fverify%2FQVvKz9NxPcFB"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/vp/status" : {
+      "post" : {
+        "tags" : [ "Prescription VC Verification API" ],
+        "summary" : "Callback endpoint to receive status changes from presentation process",
+        "parameters" : [ ],
+        "requestBody" : {
+          "description" : "Status update",
+          "content" : {
+            "text/plain" : {
+              "schema" : {
+                "type" : "string"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : { },
+        "deprecated" : false
+      }
+    },
+    "/utils/qrcode" : {
+      "post" : {
+        "tags" : [ "Utilities API" ],
+        "summary" : "Turn a string (e.g. OID4VC credential offer) into a QR code",
+        "parameters" : [ ],
+        "requestBody" : {
+          "description" : "Request to convert a credential offer to a QR code",
+          "content" : {
+            "text/plain" : {
+              "schema" : {
+                "type" : "string"
+              },
+              "examples" : {
+                "Credential Offer Example" : {
+                  "value" : "openid-credential-offer://localhost/?credential_offer=%7B%22credential_issuer%22%3A%22http%3A%2F%2Flocalhost%3A8000%22%2C%22credentials%22%3A%5B%22VerifiableId%22%5D%2C%22grants%22%3A%7B%22authorization_code%22%3A%7B%22issuer_state%22%3A%22501414a4-c461-43f0-84b2-c628730c7c02%22%7D%7D%7D"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Medication prescription VC OID4VC compliant credential offer",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/static/privacy" : {
+      "get" : {
+        "tags" : [ "Statics API" ],
+        "parameters" : [ ],
+        "responses" : { },
+        "deprecated" : false
+      }
+    },
+    "/notifications/{stateId}" : {
+      "get" : {
+        "tags" : [ ],
+        "parameters" : [ ],
+        "responses" : { },
+        "deprecated" : false
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "PatientIdDTO" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "value" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PatientDTO" : {
+        "type" : "object",
+        "properties" : {
+          "birthDate" : {
+            "type" : "string"
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "gender" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "ids" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PatientIdDTO"
+            }
+          },
+          "lastName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "MedicamentDTO" : {
+        "type" : "object",
+        "properties" : {
+          "medId" : {
+            "type" : "string"
+          },
+          "medIdType" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "MedicationDTO" : {
+        "type" : "object",
+        "properties" : {
+          "author" : {
+            "type" : "string"
+          },
+          "creationDate" : {
+            "type" : "string"
+          },
+          "medId" : {
+            "type" : "string"
+          },
+          "medType" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "medicaments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/MedicamentDTO"
+            }
+          },
+          "patient" : {
+            "$ref" : "#/components/schemas/PatientDTO"
+          },
+          "remarks" : {
+            "type" : "string"
+          },
+          "zsrNumber" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SwissEidDetail" : {
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "type" : "string"
+          },
+          "dateOfBirth" : {
+            "type" : "string"
+          },
+          "documentId" : {
+            "type" : "string"
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "CredentialDescriptor" : {
+        "type" : "object",
+        "properties" : {
+          "format" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PresentationDefinition" : {
+        "type" : "object",
+        "properties" : {
+          "requestCredentials" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/CredentialDescriptor"
+            }
+          }
+        }
+      },
+      "VerifyRequest" : {
+        "type" : "object",
+        "properties" : {
+          "authorizeBaseUrl" : {
+            "type" : "string"
+          },
+          "errorRedirectUri" : {
+            "type" : "string"
+          },
+          "presentationDefinition" : {
+            "$ref" : "#/components/schemas/PresentationDefinition"
+          },
+          "responseMode" : {
+            "type" : "string"
+          },
+          "stateId" : {
+            "type" : "string"
+          },
+          "statusCallbackApiKey" : {
+            "type" : "string"
+          },
+          "statusCallbackUri" : {
+            "type" : "string"
+          },
+          "successRedirectUri" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "examples" : { },
+    "securitySchemes" : {
+      "authenticated" : {
+        "type" : "apiKey",
+        "name" : "authenticated",
+        "in" : "cookie"
+      }
+    }
+  }
+}

@@ -6,6 +6,8 @@ import {
   parseOpenId4VpUri,
   subscribe_to_notifications
 } from './pis-api-functions.mjs'
+import { processSmartHealthCardCredentials } from './fhirSmartHealthCardProcessor.js'
+import { HealthInfoPresentation } from './healthInfoPresentation.js';
 
 // State management
 const state = proxy({
@@ -13,7 +15,8 @@ const state = proxy({
   events: [],
   qrCodeData: null,
   healthInfo: null,
-  presentationUri: null
+  presentationUri: null,
+  processedHealthInfo: null
 })
 
 // Constants for health info states
@@ -29,11 +32,25 @@ const HEALTH_INFO_MESSAGES = {
   [HEALTH_INFO_STATES.HEALTH_INFO]: "Thank you for providing me your health information"
 }
 
-// Function to reset prescription state
+// Function to reset health info state
 function resetHealthInfoState() {
   state.qrCodeData = null;
   state.healthInfo = null;
   state.presentationUri = null;
+  state.processedHealthInfo = null;
+
+  // Show QR code display and hide health info
+  const qrCodeDisplay = document.getElementById('qrCodeDisplay');
+  const healthInfoContainer = document.getElementById('health-info-container');
+  
+  if (qrCodeDisplay) {
+    qrCodeDisplay.classList.remove('hidden');
+  }
+  
+  if (healthInfoContainer) {
+    healthInfoContainer.classList.add('hidden');
+  }
+
   updateHealthInfoDisplay();
 }
 
@@ -77,20 +94,16 @@ function updateHealthInfoDisplay() {
     healthInfoInstructionElement.textContent = message;
   }
 
-  const qrCodeDisplay = document.getElementById('qrCodeDisplay');
+  const qrCodeDisplay = document.getElementById('qrCodeContent');
   if (!qrCodeDisplay) return;
 
+  const healthInfoContainer = document.getElementById('health-info-container');
+  const healthInfoPresentation = new HealthInfoPresentation(healthInfoContainer);
 
   switch (currentState) {
     case HEALTH_INFO_STATES.HEALTH_INFO:
       if (state.healthInfo) {
-        qrCodeDisplay.innerHTML = `
-          <div class="flex flex-col items-center justify-center w-full">
-            <div class="w-full">
-              <pre class="bg-gray-100 p-4 rounded-lg w-full font-mono text-sm whitespace-pre-wrap break-all" style="word-break: break-all; overflow-wrap: anywhere; max-width: 100%; white-space: pre-wrap;">${JSON.stringify(state.healthInfo, null, 2)}</pre>
-            </div>
-          </div>
-        `;
+        healthInfoPresentation.render(state.processedHealthInfo);
       }
       break;
 
@@ -388,6 +401,9 @@ async function handleHealthInfoPresentation() {
           
           console.log("Extracted credential subjects:", smartHealthCardCredentials);
           state.healthInfo = smartHealthCardCredentials;
+          // Process the FHIR resources from SmartHealthCards
+          state.processedHealthInfo = processSmartHealthCardCredentials(smartHealthCardCredentials);
+          console.log("Processed health info: ", state.processedHealthInfo);
           state.qrCodeData = null; // Clear QR code
           updateHealthInfoDisplay(); // Force UI update
 
