@@ -88,6 +88,24 @@ function processFhirResource(resource, uri) {
 
     switch (resource.resourceType) {
         case ResourceTypes.PATIENT:
+            // Find medical record number
+            const medicalRecordNumber = resource.identifier?.find(id => 
+                id.system === 'http://hospital.smarthealthit.org'
+            )?.value || '';
+
+            // Find social security number
+            const socialSecurityNumber = resource.identifier?.find(id => 
+                id.system === 'http://hl7.org/fhir/sid/us-ssn'
+            )?.value || '';
+
+            // Get primary phone number
+            const telecom = resource.telecom?.find(t => 
+                t.system === 'phone' && (t.use === 'home' || t.use === 'mobile')
+            )?.value || '';
+
+            // Get primary language
+            const language = resource.communication?.[0]?.language?.coding?.[0]?.display || '';
+
             return {
                 ...base,
                 name: resource.name?.[0]?.given?.join(' ') + ' ' + resource.name?.[0]?.family || 'Unknown',
@@ -95,7 +113,12 @@ function processFhirResource(resource, uri) {
                 gender: resource.gender || '',
                 address: resource.address?.[0]?.line?.join(', ') || '',
                 city: resource.address?.[0]?.city || '',
-                country: resource.address?.[0]?.country || ''
+                state: resource.address?.[0]?.state || '',
+                country: resource.address?.[0]?.country || '',
+                language,
+                medicalRecordNumber,
+                socialSecurityNumber,
+                telecom
             };
 
         case ResourceTypes.ALLERGY_INTOLERANCE:

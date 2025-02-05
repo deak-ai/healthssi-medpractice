@@ -39,44 +39,85 @@ export class HealthInfoPresentation {
     renderPatientCard(patient) {
         return `
             <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mb-4">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="flex-shrink-0">
-                        <div class="inline-flex items-center justify-center w-16 h-16 text-2xl text-blue-500 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-                            <i class="fas fa-${this.sections.patient.icon}"></i>
-                        </div>
-                    </div>
-                    <div class="flex-grow">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-1">${patient.name}</h2>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                            ${patient.gender.charAt(0).toUpperCase() + patient.gender.slice(1)} · Born ${this.formatDate(patient.birthDate)}
-                        </p>
+                <div class="flex flex-col mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">${patient.name}</h2>
+                    <div class="flex flex-wrap gap-3 text-sm text-gray-500 dark:text-gray-400">
+                        <span class="flex items-center">
+                            <i class="fas fa-user mr-2"></i>
+                            ${patient.gender.charAt(0).toUpperCase() + patient.gender.slice(1)}
+                        </span>
+                        <span class="flex items-center">
+                            <i class="fas fa-calendar mr-2"></i>
+                            Born ${this.formatDate(patient.birthDate)}
+                        </span>
+                        ${patient.language ? `
+                        <span class="flex items-center">
+                            <i class="fas fa-language mr-2"></i>
+                            ${patient.language}
+                        </span>
+                        ` : ''}
                     </div>
                 </div>
-                <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
                         <div class="flex items-start gap-3">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-map-marker-alt text-gray-400"></i>
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fas fa-map-marker-alt text-blue-500"></i>
                             </div>
-                            <div class="flex-grow">
+                            <div>
                                 <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Address</h4>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">
                                     ${patient.address}<br>
-                                    ${patient.city}, ${patient.country}
+                                    ${patient.city}${patient.state ? `, ${patient.state}` : ''}<br>
+                                    ${patient.country}
                                 </p>
                             </div>
                         </div>
+
+                        ${patient.telecom ? `
                         <div class="flex items-start gap-3">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-id-card text-gray-400"></i>
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fas fa-phone text-blue-500"></i>
                             </div>
-                            <div class="flex-grow">
-                                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Patient ID</h4>
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Phone</h4>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                                    ${patient.id || 'Not Available'}
+                                    ${patient.telecom}
                                 </p>
                             </div>
                         </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="space-y-4">
+                        ${patient.medicalRecordNumber ? `
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fas fa-hospital text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Medical Record Number</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                    ${patient.medicalRecordNumber}
+                                </p>
+                            </div>
+                        </div>
+                        ` : ''}
+
+                        ${patient.socialSecurityNumber ? `
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fas fa-id-card text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Social Security Number</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                    ${patient.socialSecurityNumber}
+                                </p>
+                            </div>
+                        </div>
+                        ` : ''}
                     </div>
                 </div>
             </div>`;
