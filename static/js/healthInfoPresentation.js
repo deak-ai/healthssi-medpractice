@@ -38,26 +38,45 @@ export class HealthInfoPresentation {
 
     renderPatientCard(patient) {
         return `
-            <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mb-4">
-                <div class="flex items-center mb-4">
-                    <div class="inline-flex items-center justify-center w-8 h-8 mr-3 text-blue-500 bg-blue-100 rounded-lg dark:bg-blue-900 dark:text-blue-300">
-                        <i class="fas fa-${this.sections.patient.icon}"></i>
+            <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mb-4">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="flex-shrink-0">
+                        <div class="inline-flex items-center justify-center w-16 h-16 text-2xl text-blue-500 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                            <i class="fas fa-${this.sections.patient.icon}"></i>
+                        </div>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">${this.sections.patient.title}</h3>
+                    <div class="flex-grow">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-1">${patient.name}</h2>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                            ${patient.gender.charAt(0).toUpperCase() + patient.gender.slice(1)} · Born ${this.formatDate(patient.birthDate)}
+                        </p>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2">${patient.name}</h4>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">
-                            <span class="font-semibold">Date of Birth:</span> ${this.formatDate(patient.birthDate)}<br>
-                            <span class="font-semibold">Gender:</span> ${patient.gender.charAt(0).toUpperCase() + patient.gender.slice(1)}
-                        </p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">
-                            <span class="font-semibold">Address:</span> ${patient.address}<br>
-                            <span class="font-semibold">City:</span> ${patient.city}, ${patient.country}
-                        </p>
+                <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-gray-400"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Address</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                    ${patient.address}<br>
+                                    ${patient.city}, ${patient.country}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-id-card text-gray-400"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Patient ID</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                    ${patient.id || 'Not Available'}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -71,7 +90,7 @@ export class HealthInfoPresentation {
         const { title, icon } = this.sections[sectionKey];
 
         const renderListItem = (item, extraContent = '') => `
-            <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mb-4">
+            <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
                 <div class="flex items-center justify-between mb-2">
                     <h5 class="text-base font-semibold text-gray-900 dark:text-white">${item.name}</h5>
                     ${item.status ? `<span class="${this.getStatusBadgeClass(item.status)}">${item.status}</span>` : ''}
@@ -136,7 +155,9 @@ export class HealthInfoPresentation {
                         ${Array.isArray(sectionData) ? `<span class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">(${sectionData.length})</span>` : ''}
                     </h3>
                 </div>
-                ${content}
+                <div class="health-info-grid">
+                    ${content}
+                </div>
             </div>`;
     }
 
@@ -153,23 +174,77 @@ export class HealthInfoPresentation {
         // Show health info container
         this.container.classList.remove('hidden');
 
+        // Add grid styles
+        html += `
+            <style>
+                .health-info-grid {
+                    display: grid;
+                    grid-template-columns: repeat(var(--optimal-columns, 1), minmax(var(--min-card-width, 300px), var(--max-card-width, 1fr)));
+                    gap: 1rem;
+                    justify-content: start;
+                }
+            </style>
+        `;
+
         // Render patient card first
         if (healthInfo.patient) {
             html += this.renderPatientCard(healthInfo.patient);
         }
 
-        // Create a container for the remaining sections in a 2-column layout
-        html += '<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">';
+        // Create a container for the remaining sections
+        html += '<div class="grid grid-cols-1 gap-4">';
         sections.forEach(section => {
             if (section !== 'patient') {
                 const sectionHtml = this.renderSection(healthInfo[section], section);
                 if (sectionHtml) {
-                    html += `<div>${sectionHtml}</div>`;
+                    html += sectionHtml;
                 }
             }
         });
         html += '</div>';
 
         this.container.innerHTML = html;
+
+        // After render, calculate and set optimal column count
+        this.updateGridLayout();
+        
+        // Update on resize
+        window.removeEventListener('resize', this.updateGridLayout.bind(this));
+        window.addEventListener('resize', this.updateGridLayout.bind(this));
+    }
+
+    updateGridLayout() {
+        const container = this.container;
+        if (!container) return;
+
+        const containerWidth = container.clientWidth;
+        const minCardWidth = 300; // Minimum card width
+        const gap = 16; // 1rem gap
+        
+        // Calculate how many columns can fit
+        const maxPossibleColumns = Math.floor((containerWidth + gap) / (minCardWidth + gap));
+        
+        // Find all grids and their item counts
+        const grids = container.querySelectorAll('.health-info-grid');
+        let maxItemCount = 0;
+        
+        // Find the section with the most items to determine optimal column count
+        grids.forEach(grid => {
+            maxItemCount = Math.max(maxItemCount, grid.children.length);
+        });
+        
+        // Calculate optimal columns based on the section with most items
+        // but don't exceed maxPossibleColumns
+        const optimalColumns = Math.min(maxPossibleColumns, maxItemCount);
+        
+        // Calculate the actual card width to use
+        const cardWidth = Math.floor((containerWidth - (gap * (optimalColumns - 1))) / optimalColumns);
+        
+        // Apply the same grid layout to all sections
+        grids.forEach(grid => {
+            grid.style.setProperty('--optimal-columns', optimalColumns);
+            grid.style.setProperty('--min-card-width', cardWidth + 'px');
+            grid.style.setProperty('--max-card-width', cardWidth + 'px');
+        });
     }
 }
