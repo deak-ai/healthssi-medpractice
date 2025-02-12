@@ -1,0 +1,180 @@
+{
+    "patient": {
+      "uri": "urn:uuid:ac542f12-084f-4355-8927-228edf1ec28b",
+      "resourceType": "Patient",
+      "name": "Adah626 Altenwerth646",
+      "birthDate": "1951-09-30",
+      "gender": "female",
+      "address": "705 Hirthe Common",
+      "city": "Bellingham",
+      "country": "US"
+    },
+    "allergies": [
+      {
+        "uri": "urn:uuid:89080431-a2ad-43ce-af79-a97e7081829f",
+        "resourceType": "AllergyIntolerance",
+        "name": "Allergy to grass pollen",
+        "code": "418689008",
+        "codeSystem": "http://snomed.info/sct",
+        "criticality": "low",
+        "clinicalStatus": "active",
+        "verificationStatus": "confirmed",
+        "recordedDate": "1953-03-04T10:53:57+01:00",
+        "type": "allergy",
+        "category": [
+          "food"
+        ]
+      },
+      {
+        "uri": "urn:uuid:f1421eda-ef95-4ec1-ae00-041486d0b68d",
+        "resourceType": "AllergyIntolerance",
+        "name": "Shellfish allergy",
+        "code": "300913006",
+        "codeSystem": "http://snomed.info/sct",
+        "criticality": "low",
+        "clinicalStatus": "active",
+        "verificationStatus": "confirmed",
+        "recordedDate": "1953-03-04T10:53:57+01:00",
+        "type": "allergy",
+        "category": [
+          "food"
+        ]
+      }
+    ],
+    "medications": [
+      {
+        "uri": "urn:uuid:de5acd8f-8cff-45f8-b3b9-2cb1bf7d5962",
+        "resourceType": "MedicationRequest",
+        "intent": "order",
+        "name": "Alendronic acid 10 MG Oral Tablet",
+        "code": "904419",
+        "codeSystem": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "status": "active",
+        "authoredOn": "2011-11-27T10:53:57+01:00",
+        "dosageInstructions": "No dosage instructions available."
+      },
+      {
+        "uri": "urn:uuid:fd0515cb-5b09-4251-8acf-ab4c4ab90cae",
+        "resourceType": "MedicationRequest",
+        "intent": "order",
+        "name": "10 ML Furosemide 10 MG/ML Injection",
+        "code": "1719286",
+        "codeSystem": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "status": "active",
+        "authoredOn": "2015-04-04T12:27:57+02:00",
+        "dosageInstructions": "No dosage instructions available."
+      },
+      {
+        "uri": "urn:uuid:8685118b-93ae-499e-9bab-71f5a3a1dc76",
+        "resourceType": "MedicationRequest",
+        "intent": "order",
+        "name": "Furosemide 40 MG Oral Tablet",
+        "code": "313988",
+        "codeSystem": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "status": "active",
+        "authoredOn": "2015-06-28T11:53:57+02:00",
+        "dosageInstructions": "Take as needed."
+      }
+    ],
+    "conditions": [
+      {
+        "uri": "urn:uuid:96c41a28-c537-4990-ac14-22564d02c9fe",
+        "resourceType": "Condition",
+        "name": "Osteoporosis (disorder)",
+        "code": "64859006",
+        "codeSystem": "http://snomed.info/sct",
+        "clinicalStatus": "active",
+        "verificationStatus": "confirmed",
+        "onsetDateTime": "2011-11-27T10:53:57+01:00"
+      },
+      {
+        "uri": "urn:uuid:3bdd4196-cf44-439f-88c4-faeb388ae430",
+        "resourceType": "Condition",
+        "name": "Chronic congestive heart failure (disorder)",
+        "code": "88805009",
+        "codeSystem": "http://snomed.info/sct",
+        "clinicalStatus": "active",
+        "verificationStatus": "confirmed",
+        "onsetDateTime": "2014-09-22T11:53:57+02:00"
+      }
+    ],
+    "immunizations": [
+      {
+        "uri": "urn:uuid:858d96f8-555e-4868-a400-b82ac60dc54a",
+        "resourceType": "Immunization",
+        "name": "Influenza, seasonal, injectable, preservative free",
+        "code": "140",
+        "codeSystem": "http://hl7.org/fhir/sid/cvx",
+        "status": "completed",
+        "date": "2012-12-02T10:53:57+01:00"
+      },
+      {
+        "uri": "urn:uuid:4f078bdf-faa8-49fa-b395-0a4f719477e3",
+        "resourceType": "Immunization",
+        "name": "Td (adult) preservative free",
+        "code": "113",
+        "codeSystem": "http://hl7.org/fhir/sid/cvx",
+        "status": "completed",
+        "date": "2012-12-02T10:53:57+01:00"
+      }
+    ],
+    "procedures": [
+      {
+        "uri": "urn:uuid:ff0eae83-526c-49de-a977-70c071720a0d",
+        "resourceType": "Procedure",
+        "name": "Medication Reconciliation (procedure)",
+        "code": "430193006",
+        "codeSystem": "http://snomed.info/sct",
+        "status": "completed",
+        "performedStart": "2007-11-04T10:53:57+01:00",
+        "performedEnd": "2007-11-04T11:08:57+01:00"
+      },
+      {
+        "uri": "urn:uuid:3c9b0fa1-b941-4131-93e4-3b87c14a0660",
+        "resourceType": "Procedure",
+        "name": "Bone density scan (procedure)",
+        "code": "312681000",
+        "codeSystem": "http://snomed.info/sct",
+        "status": "completed",
+        "performedStart": "2011-11-27T10:53:57+01:00",
+        "performedEnd": "2011-11-27T11:08:57+01:00"
+      },
+      {
+        "uri": "urn:uuid:70ba3bac-591e-4f76-b906-051526dd1b5d",
+        "resourceType": "Procedure",
+        "name": "Electrocardiographic procedure",
+        "code": "29303009",
+        "codeSystem": "http://snomed.info/sct",
+        "status": "completed",
+        "performedStart": "2014-09-22T11:53:57+02:00",
+        "performedEnd": "2014-09-22T11:59:57+02:00"
+      }
+    ],
+    "results": [
+      {
+        "uri": "urn:uuid:e41645e4-6297-47c5-aad2-962cfacdfd00",
+        "resourceType": "DiagnosticReport",
+        "name": "Lipid Panel",
+        "code": "57698-3",
+        "codeSystem": "http://loinc.org",
+        "status": "final",
+        "effectiveDateTime": "2007-11-04T10:53:57+01:00",
+        "value": null,
+        "unit": null
+      },
+      {
+        "uri": "urn:uuid:bf643bc9-1848-4969-9914-f910ed976759",
+        "resourceType": "DiagnosticReport",
+        "name": "Complete blood count (hemogram) panel - Blood by Automated count",
+        "code": "58410-2",
+        "codeSystem": "http://loinc.org",
+        "status": "final",
+        "effectiveDateTime": "2008-11-09T10:53:57+01:00",
+        "value": null,
+        "unit": null
+      }
+    ],
+    "devices": [],
+    "other": []
+  }
+  

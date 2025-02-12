@@ -57,6 +57,8 @@ async function fetchMedicationDetails(gtin) {
     
     if (!Array.isArray(data) || data.length === 0) {
       throw new Error('No medication details found');
+    } else { 
+      console.log("Received medication details:", data);
     }
     
     return data[0].pid; // Return the PID from the first result
