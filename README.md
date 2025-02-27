@@ -28,11 +28,9 @@ The Reception Agent enables patients to share their health information securely 
 - **Static Site Generator**: [HUGO](https://gohugo.io/)
 - **JavaScript Libraries**:
   - [Valtio](https://github.com/pmndrs/valtio) for state management
-  - WebRTC for real-time communication
 - **Backend Integration**:
-  - OpenAI API for conversational AI
-  - Practice Information System (PIS) API for OpenID4VP credential handling
-
+  - [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime) for conversational AI
+  - [Practice Information System (PIS)](https://github.com/deak-ai/healthwallet/tree/main/server) API for OpenID4VP credential handling
 ## Prerequisites
 
 - Node.js (v14 or higher)
