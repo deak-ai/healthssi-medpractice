@@ -30,7 +30,7 @@ The Reception Agent enables patients to share their health information securely 
   - [Valtio](https://github.com/pmndrs/valtio) for state management
 - **Backend Integration**:
   - [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime) for conversational AI
-  - [Practice Information System (PIS)](https://github.com/deak-ai/healthwallet/tree/main/server) API for OpenID4VP credential handling
+ - [Health SSI PIS Server](https://github.com/deak-ai/healthwallet/tree/main/server): Practice Information System (PIS) backend server with API's for SSI and patient/medication mgmt
 ## Prerequisites
 
 - Node.js (v14 or higher)
@@ -76,6 +76,7 @@ The Reception Agent enables patients to share their health information securely 
 
 - [HealthWallet IPS](https://github.com/deak-ai/healthwallet-ips): Mobile wallet application for managing and sharing health information
 - [Health SSI V2](https://github.com/Abdagon/health-ssi-2): Umbrella project linking to several Digital Health with Self-Sovereign Identity (SSI) initiatives
+- [Health SSI PIS Server](https://github.com/deak-ai/healthwallet/tree/main/server): Practice Information System (PIS) backend server with API's for SSI and patient/medication mgmt
 
 ## License
 
