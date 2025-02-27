@@ -2,7 +2,7 @@
 
 ## Overview
 
-The MedPractice Reception Agent is an AI-powered reception system for medical practices, built on Flowbite and HUGO with Tailwind CSS. 
+The MedPractice Reception Agent is an AI-powered reception system for medical practices, built on Flowbite, HUGO, Tailwind CSS and the OpenAI Realtime API.
 This application provides an intelligent interface for patient registration using Self-Sovereign Identity (SSI) technology.
 
 The Reception Agent enables patients to share their health information securely with medical practices through the following workflow:
