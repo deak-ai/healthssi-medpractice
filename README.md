@@ -74,8 +74,8 @@ The Reception Agent enables patients to share their health information securely 
 
 ## Related Projects
 
-- [HealthWallet IPS](https://github.com/deak-ai/healthwallet-ips): Mobile wallet application for managing and sharing health information
 - [Health SSI V2](https://github.com/Abdagon/health-ssi-2): Umbrella project linking to several Digital Health with Self-Sovereign Identity (SSI) initiatives
+- [HealthWallet IPS](https://github.com/deak-ai/healthwallet-ips): Mobile wallet application for managing and sharing health information
 - [Health SSI PIS Server](https://github.com/deak-ai/healthwallet/tree/main/server): Practice Information System (PIS) backend server with API's for SSI and patient/medication mgmt
 
 ## License
